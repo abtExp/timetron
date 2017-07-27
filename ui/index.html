@@ -8,13 +8,14 @@
 <link href='../styles/css/index.css' rel='stylesheet' />
 <title>TimeTron</title>
 <script>
-    const Actions = require('../actions/Actions');
+    const Actions = require('../actions/Actions'),
+    TimerStore = require('../store/TimerStore');
+
     Actions.init();
-    const TimerStore = require('../store/TimerStore');
-    const store = new TimerStore();
+    let store = new TimerStore();
     store.register();
 </script>
-<script src='../resources/scripts/timerController.js'></script>
+<script src='../resources/scripts/ticker.js'></script>
 </head>
 <body>
 <!-- component -->

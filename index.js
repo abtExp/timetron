@@ -28,7 +28,7 @@ app.on('ready',_=>{
     window.webContents.openDevTools();
 })
 
-ipc.on('create-timer',(event,id)=>{
+ipc.on('create-timer',(event,obj)=>{
     let timer = new BrowserWindow({
         width : 500,
         height : 400,
@@ -38,15 +38,14 @@ ipc.on('create-timer',(event,id)=>{
         // fullscreenable : false,
         // show : false,
     })
-
+    
     timer.loadURL(path.join('file:///',__dirname,'ui/timer.html'));
     timer.on('ready-to-show',_=>{
-        timer.webContents.send('set-time',id);
+        timer.webContents.on('did-finish-load',_=>{
+            timer.webContents.send('set-time',obj);
+        });
     })
     ipc.on('timer-set',_=>{
-        dialog.showMessageBox({
-            title : 'timer set'
-        })
         timer.show();
     })
 })

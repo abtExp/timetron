@@ -2,7 +2,12 @@ const electron = require('electron'),
 ipc = electron.ipcRenderer;
 
 function render(id){
-    ipc.send('create-timer',id);
+    let obj = {
+        id,
+        Actions,
+        store
+    }
+    ipc.send('create-timer',obj);
 }
 
 function deleteTimer(id){
