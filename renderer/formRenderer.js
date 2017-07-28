@@ -1,10 +1,14 @@
 const electron = require('electron'),
-ipc = electron.ipcRenderer;
+ipc = electron.ipcRenderer,
+dialog = electron.remote.dialog;
 
 function render(id){
+    console.log(Actions);
+    dialog.showMessageBox({
+        title : `${Actions.subscribers[0].state[0].title}`
+    })
     let obj = {
         id,
-        Actions,
         store
     }
     ipc.send('create-timer',obj);

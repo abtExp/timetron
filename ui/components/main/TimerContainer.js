@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom';
 
 import Timer from '../Timer';
 
-class TimerContainer extends React.Component{
-    render(){
-        return(
-            <Timer state={tmr} />
+let tmr;
+
+class TimerContainer extends React.Component {
+    componentWillMount() {
+        tmr = Actions.fire(0, 'GET_TIMER', id);
+    }
+
+    render() {
+        return ( 
+            <Timer state = { tmr }/>
         );
     }
 }
 
 const app_container = document.getElementById('timer');
-ReactDOM.render(<TimerContainer />,app_container);
+ReactDOM.render( < TimerContainer / > , app_container);
