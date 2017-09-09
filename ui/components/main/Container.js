@@ -1,4 +1,4 @@
-import React from 'react';
+import  React from 'react';
 import ReactDOM from 'react-dom';
 
 //Components
@@ -14,16 +14,7 @@ class Container extends React.Component{
             timers : []
         };
     }
-
-    componentWillMount(){
-        store.on('UPDATE',(o)=>{
-            console.log('Received update to store with : ',o);
-            this.setState({
-                timers : o
-            })
-        })
-    }
-
+    
     formToggle(){
         if(this.state.formShow === 'flex') this.setState({
             formShow : 'none'
@@ -39,7 +30,7 @@ class Container extends React.Component{
         });
         return(
             <div>
-                <Title value='TimeTron' />
+                <Title content = 'TimeTron' />
                 <Form display={this.state.formShow} />
                 <div id='timer_container'>
                     {tims}

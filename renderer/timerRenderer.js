@@ -1,23 +1,14 @@
-const electron = require('electron'),
-    ipc = electron.ipcRenderer,
-    dialog = electron.remote.dialog;
+const { ipcRenderer, remote } = require('electron');
 
-ipc.on('set-time', (event, obj) => {
+ipcRenderer.on('set-time', (event, obj) => {
     createTimer(obj);
-    ipc.send('timer-set');
+    ipcRenderer.send('timer-set');
 })
 
-function createTimer(obj) {
-    // Actions = obj.Actions;
-    store = obj.store;
-    id = obj.id;
-    Actions.subscribers = [store];
+function deleteTimer(id) {
+    ipcRenderer.send('delete-timer', id);
 }
 
-function deleteTimer(id) {
-    console.log('deleting');
-    ipc.send('delete-timer', id);
-    ipc.on('closing', () => {
-        Actions.fire(0, 'DELETE_TIMER', id);
-    })
+function changeTimerState(id){
+    ipcRenderer.send('pause-timer',id);
 }

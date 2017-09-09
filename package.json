@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/abtexp/timetron#readme",
   "dependencies": {
-    "electron": "^1.6.11",
+    "electron": "^1.7.5",
     "less": "^2.7.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -44,6 +44,7 @@
     "electron-react-devtools": "^0.4.0",
     "electron-reload": "^1.2.1",
     "jest": "^20.0.4",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.2.0"
   }
 }

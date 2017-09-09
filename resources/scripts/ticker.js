@@ -2,7 +2,8 @@ function ticker(timer){
     if(timer.finished || !timer.state){
         clearInterval(timer.ticker);
         timer.ticker = null;
-        store.Update();
+        // store.Update();
+        changeTimerState(timer.id);
         return;
     }
     else{
@@ -26,7 +27,8 @@ function ticker(timer){
             timer.state = false;
             return;
         }
-        store.Update();
+        // store.Update();
+        changeTimerState(timer.id);
         },1000);
         return;
     }

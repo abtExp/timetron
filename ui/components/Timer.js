@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import Title from './Title';
 
 export default class Timer extends React.Component{
@@ -15,6 +14,7 @@ export default class Timer extends React.Component{
         this.setState({
             timer : this.props.state
         })
+
     }
 
     componentDidMount(){
@@ -26,13 +26,14 @@ export default class Timer extends React.Component{
     }
 
     toggle(){
+        //make a toggle function to send ipc requests to the main process
         if(this.state.timer.state){
-            Actions.fire(0,'PAUSE_TIMER',this.state.timer.id);
             ticker(this.state.timer);
+            changeState(this.state.timer.id);
         }
         else{
-            Actions.fire(0,'RUN_TIMER',this.state.timer.id);
             ticker(this.state.timer);
+            changeTimerState(this.state.timer.id);
         }
     }
 
