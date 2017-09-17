@@ -38,13 +38,13 @@ module.exports = class TimerStore extends EventEmitter {
     Run(id) {
         let timer = this.state.find(i => i.id === id);
         timer.state = true;
-        this.Update();
+        this.Update(id);
     }
 
     Pause(id) {
         let timer = this.state.find(i => i.id === id);
         timer.state = false;
-        this.Update();
+        this.Update(id);
     }
 
     Get(id) {
@@ -55,8 +55,14 @@ module.exports = class TimerStore extends EventEmitter {
         return this.state;
     }
 
-    Update() {
+    Update(id) {
         console.log("STORE UPDATED");
-        this.emit('UPDATE', this.state);
+        let timer = this.state.find(i => i.id === id);
+        this.emit('UPDATE', timer);
+        this.UpdateAll();
+    }
+
+    UpdateAll() {
+        this.emit('UPDATE_ALL', this.state);
     }
 }

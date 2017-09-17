@@ -1,32 +1,30 @@
 // const Actions = require('../actions/Actions');
-let id = 0;
+let id = 2;
 
-function submit(){
-    let Title = document.getElementById('title').value, 
-    Hrs = document.getElementById('hrs').value,
-    Mins = document.getElementById('mins').value,
-    Secs = document.getElementById('secs').value,
-    Notes = document.getElementById('note').value,
-    form = document.getElementById('form'),
+function submit() {
+    let Title = document.getElementById('title').value,
+        Hrs = document.getElementById('hrs').value,
+        Mins = document.getElementById('mins').value,
+        Secs = document.getElementById('secs').value,
+        Notes = document.getElementById('note').value,
+        form = document.getElementById('form'),
 
-    title = Title ? Title : 'Task',
-    hrs = Hrs ? parseInt(Hrs) : 0,
-    mins = Mins ? parseInt(Mins) : 0,
-    secs = Secs ? parseInt(Secs) : 0,
-    notes = Notes ? Notes : '';
+        title = Title || 'Task',
+        hrs = parseInt(Hrs) || 0,
+        mins = parseInt(Mins) || 0,
+        secs = parseInt(Secs) || 0,
+        notes = Notes || '';
 
     let timer = {
-        id : id++,
+        id: id++,
         title,
         hrs,
         mins,
         secs,
         notes,
-        state : true,
-        finished : false
+        state: true,
+        finished: false
     }
-
-    Actions.fire(0,'ADD_TIMER',timer);
-    render(id);
+    addTimer(timer);
     form.style.display = 'none';
 }

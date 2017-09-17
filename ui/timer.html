@@ -9,8 +9,10 @@
     <link href='../resources/styles/css/timer.css' rel='stylesheet' />
     <title>TimeTron</title>
     <script>
-        const Actions = require('../actions/Actions');
-        let store, id;
+        let tmr = {};
+        function createTimer(obj){
+            tmr = obj;
+        }
     </script>
     <script src='../renderer/timerRenderer.js'></script>
 </head>

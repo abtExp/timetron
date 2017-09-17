@@ -1,13 +1,11 @@
-const electron = require('electron'),
+const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = require('electron'),
+    TimerStore = require('./store/TimerStore'),
     path = require('path'),
-    app = electron.app,
-    BrowserWindow = electron.BrowserWindow,
-    dialog = electron.dialog,
-    ipc = electron.ipcMain,
     Actions = require('./actions/Actions'),
     TimerStore = require('./store/TimerStore'),
     store = new TimerStore();
 
+let store, mainWindow, windows = 0;
 
 app.on('ready', _ => {
     Actions.init();
@@ -17,7 +15,7 @@ app.on('ready', _ => {
     let device_width = screen.getPrimaryDisplay().workAreaSize.width,
         device_height = screen.getPrimaryDisplay().workAreaSize.height;
 
-    window = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 500,
         height: 600,
         x: device_width - this.width,
@@ -27,38 +25,48 @@ app.on('ready', _ => {
         movable: true,
         backgroundColor: '#008382'
     });
-    window.loadURL(path.join('file:///', __dirname, 'ui/index.html'));
-    window.show();
-    window.webContents.openDevTools();
-})
+    mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
+    mainWindow.webContents.openDevTools();
+    mainWindow.show();
 
-ipc.on('create-timer', (event, obj) => {
-    let timer = new BrowserWindow({
-        width: 500,
-        height: 400,
-        // frame : false,
-        // resizable : false,
-        // movable : true,
-        // fullscreenable : false,
-        show: false
+    store.on('UPDATE', (id) => {
+        let window = BrowserWindow.getAllWindows().find(i => i.id === id),
+            timer = store.state.find(i => i.id === id);
+        window.webContents.send('update-timer', timer);
     })
-    timer.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
-    timer.on('ready-to-show', _ => {
-        timer.webContents.send('set-time', obj);
+    store.on('UPDATE_ALL', (obj) => {
+        mainWindow.webContents.send('update-state', obj);
+    })
+});
+
+ipcMain.on('create-timer', (event, object) => {
+    windows++;
+    Actions.fire(0, 'ADD_TIMER', object);
+    let window = new BrowserWindow({
+        width: 200,
+        height: 200,
+        title: `Timer${store.state.length}`
+    })
+    window.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
+    window.on('ready-to-show', _ => {
+        window.webContents.send('set-time', obj);
     })
     ipc.on('timer-set', _ => {
-        timer.show();
+        window.show();
     })
-})
+});
 
-ipc.on('delete-timer', (e, id) => {
-    let t = BrowserWindow.getAllWindows();
-    t.map(i => {
-        if (i.id === id + 2) {
-            i.close();
-        }
-    })
-    e.sender.send('closing');
-})
+ipcMain.on('delete-timer', (event, id) => {
+    Actions.fire('DELETE_TIMER', id);
+    let window = BrowserWindow.getAllWindows().find(i => i.id === id);
+    window.close();
+    window = null;
+});
 
-app.on('windows-all-closed', () => { app.quit(); });
+ipcMain.on('pause-timer', (event, id) => {
+    Actions.fire('PAUSE_TIMER', id);
+});
+
+ipcMain.on('play-timer', (event, id) => {
+    Actions.fire('PLAY_TIMER', id);
+})
