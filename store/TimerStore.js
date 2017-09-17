@@ -1,5 +1,5 @@
-const EventEmitter = require('events').EventEmitter,
-Actions = require('../actions/Actions');
+const EventEmitter = require('events').EventEmitter;
+// Actions = require('../actions/Actions');
 /* Schema : 
     TimerObject = {
         id : unique_id,
@@ -14,50 +14,49 @@ Actions = require('../actions/Actions');
     }
 */
 
-module.exports = class TimerStore extends EventEmitter{
-    constructor(){
+module.exports = class TimerStore extends EventEmitter {
+    constructor() {
         super();
         this.state = [];
     }
 
-    register(){
-        console.log('Registering to actions...');
-        Actions.subscribe(this);
-    }
+    // register() {
+    //     console.log('Registering to actions...');
+    //     Actions.subscribe(this);
+    // }
 
-    Add(obj){
-        this.state = [...this.state,obj];
+    Add(obj) {
+        this.state = [...this.state, obj];
         this.Update();
     }
 
-    Delete(id){
-        this.state = this.state.filter(i=>i.id !== id);
+    Delete(id) {
+        this.state = this.state.filter(i => i.id !== id);
         this.Update();
     }
 
-    Run(id){
-        let timer = this.state.find(i=>i.id === id);
-        //run decrease the timer
+    Run(id) {
+        let timer = this.state.find(i => i.id === id);
         timer.state = true;
         this.Update();
     }
 
-    Pause(id){
-        let timer = this.state.find(i=>i.id === id);
+    Pause(id) {
+        let timer = this.state.find(i => i.id === id);
         timer.state = false;
         this.Update();
     }
 
-    Get(id){
-        return this.state.find(i=>i.id === id)
+    Get(id) {
+        return this.state.find(i => i.id === id)
     }
 
-    GetAll(){
+    GetAll() {
         return this.state;
     }
 
-    Update(){
+    Update() {
         console.log("STORE UPDATED");
-        this.emit('UPDATE',this.state);
+        this.emit('UPDATE', this.state);
     }
 }

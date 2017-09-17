@@ -3,18 +3,23 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     dialog = electron.dialog,
-    ipc = electron.ipcMain;
+    ipc = electron.ipcMain,
+    Actions = require('./actions/Actions'),
+    TimerStore = require('./store/TimerStore'),
+    store = new TimerStore();
 
 
 app.on('ready', _ => {
+    Actions.init();
+    Actions.subscribe(store);
+
     const screen = electron.screen;
     let device_width = screen.getPrimaryDisplay().workAreaSize.width,
         device_height = screen.getPrimaryDisplay().workAreaSize.height;
 
     window = new BrowserWindow({
         width: 500,
-        height: 700,
-        // fullscreen : true,
+        height: 600,
         x: device_width - this.width,
         y: device_height - this.height,
         resizable: true,
@@ -22,7 +27,6 @@ app.on('ready', _ => {
         movable: true,
         backgroundColor: '#008382'
     });
-    window.id = 100000000;
     window.loadURL(path.join('file:///', __dirname, 'ui/index.html'));
     window.show();
     window.webContents.openDevTools();
@@ -38,30 +42,22 @@ ipc.on('create-timer', (event, obj) => {
         // fullscreenable : false,
         show: false
     })
-    dialog.showMessageBox({
-        title : `Object`,
-        message : `${JSON.stringify(obj)}`
-    })
     timer.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
     timer.on('ready-to-show', _ => {
         timer.webContents.send('set-time', obj);
     })
     ipc.on('timer-set', _ => {
-        dialog.showMessageBox({
-            title: 'got response',
-            type: 'info'
-        })
         timer.show();
     })
 })
 
 ipc.on('delete-timer', (e, id) => {
-    // let t = BrowserWindow.getAllWindows();
-    // t.map(i => {
-    //     if (i.id === id + 2) {
-    //         i.close();
-    //     }
-    // })
+    let t = BrowserWindow.getAllWindows();
+    t.map(i => {
+        if (i.id === id + 2) {
+            i.close();
+        }
+    })
     e.sender.send('closing');
 })
 
