@@ -1,12 +1,21 @@
-const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = require('electron'),
+const electron = require('electron'),
+    { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
     TimerStore = require('./store/TimerStore'),
     path = require('path'),
+    autoLaunch = require('auto-launch'),
     Actions = require('./actions/Actions'),
-    TimerStore = require('./store/TimerStore'),
     store = new TimerStore();
 
-let store, mainWindow, windows = 0;
 
+/* Update and other stuff goes here  ***************************
+ *       ______  _____           _____     _____    ************
+ ****   /#####/ /#####\   _____  |####\   /#####\   ************
+ ****     |#|  |##| |##| |_____| |#|_|#| |##| |##|  ************
+ ****     |#|   \#####/          |####/   \#####/   ************
+ ***************************************************************/
+
+
+let mainWindow;
 app.on('ready', _ => {
     Actions.init();
     Actions.subscribe(store);
@@ -23,7 +32,7 @@ app.on('ready', _ => {
         resizable: true,
         // fullscreenable : false,
         movable: true,
-        backgroundColor: '#008382'
+        frame: false,
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.webContents.openDevTools();
@@ -40,7 +49,6 @@ app.on('ready', _ => {
 });
 
 ipcMain.on('create-timer', (event, object) => {
-    windows++;
     Actions.fire(0, 'ADD_TIMER', object);
     let window = new BrowserWindow({
         width: 200,
@@ -69,4 +77,8 @@ ipcMain.on('pause-timer', (event, id) => {
 
 ipcMain.on('play-timer', (event, id) => {
     Actions.fire('PLAY_TIMER', id);
+})
+
+ipcMain.on('update-timer', (event, id) => {
+    Actions.fire('UPDATE_TIMER', id);
 })
