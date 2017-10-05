@@ -35,7 +35,6 @@ app.on('ready', _ => {
         frame: false,
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
-    mainWindow.webContents.openDevTools();
     mainWindow.show();
 
     store.on('UPDATE', (id) => {

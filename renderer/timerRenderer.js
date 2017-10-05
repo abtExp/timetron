@@ -9,8 +9,8 @@ function deleteTimer(id) {
     ipcRenderer.send('delete-timer', id);
 }
 
-function changeTimerState(id) {
-    ipcRenderer.send('pause-timer', id);
+function changeTimerState(action,id) {
+    ipcRenderer.send(action, id);
 }
 
 function updateTimer(id) {

@@ -16,12 +16,8 @@ class Container extends React.Component{
     }
     
     formToggle(){
-        if(this.state.formShow === 'flex') this.setState({
-            formShow : 'none'
-        });
-        else this.setState({
-            formShow : 'flex'
-        });
+        this.state.formShow === 'flex' ? this.setState({ formShow : 'none' }) 
+        : this.setState({ formShow : 'flex' });
     }
 
     render(){

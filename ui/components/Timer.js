@@ -16,10 +16,6 @@ export default class Timer extends React.Component{
         })
     }
 
-    componentDidMount(){
-        ticker(this.state.timer);
-    }
-
     close(){
         deleteTimer(this.state.timer.id);
     }
@@ -28,11 +24,11 @@ export default class Timer extends React.Component{
         //make a toggle function to send ipc requests to the main process
         if(this.state.timer.state){
             ticker(this.state.timer);
-            changeTimerState(this.state.timer.id);
+            changeTimerState('pause-timer',this.state.timer.id);
         }
         else{
             ticker(this.state.timer);
-            changeTimerState(this.state.timer.id);
+            changeTimerState('play-timer',this.state.timer.id);
         }
     }
 

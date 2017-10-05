@@ -4,10 +4,6 @@ import ReactDOM from 'react-dom';
 import Timer from '../Timer';
 
 class TimerContainer extends React.Component {
-    // componentWillMount() {
-
-    // }
-
     render() {
         return ( 
             <Timer state = { tmr }/>

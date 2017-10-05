@@ -1,5 +1,4 @@
 const EventEmitter = require('events').EventEmitter;
-// Actions = require('../actions/Actions');
 /* Schema : 
     TimerObject = {
         id : unique_id,
@@ -19,11 +18,6 @@ module.exports = class TimerStore extends EventEmitter {
         super();
         this.state = [];
     }
-
-    // register() {
-    //     console.log('Registering to actions...');
-    //     Actions.subscribe(this);
-    // }
 
     Add(obj) {
         this.state = [...this.state, obj];
