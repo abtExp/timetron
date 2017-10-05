@@ -29,5 +29,8 @@ module.exports = class Actions{
         else if(type === 'GET_COUNT'){
             return Actions.subscribers[store_id].state.length;
         }
+        else if(type === 'UPDATE_TIMER'){
+            Actions.subscribers[store_id].Update();
+        }
     }
 }

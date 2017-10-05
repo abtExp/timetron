@@ -50,13 +50,12 @@ module.exports = class TimerStore extends EventEmitter {
     }
 
     Update(id) {
-        console.log("STORE UPDATED");
         let timer = this.state.find(i => i.id === id);
         this.emit('UPDATE', timer);
-        this.UpdateAll();
     }
 
     UpdateAll() {
         this.emit('UPDATE_ALL', this.state);
+        this.state.map(i=>this.Update(i.id));
     }
 }

@@ -1,3 +1,4 @@
+// Imports
 const electron = require('electron'),
     { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
     TimerStore = require('./store/TimerStore'),
@@ -14,8 +15,9 @@ const electron = require('electron'),
  ****     |#|   \#####/          |####/   \#####/   ************
  ***************************************************************/
 
-
+// The Dashboard Window
 let mainWindow;
+
 app.on('ready', _ => {
     Actions.init();
     Actions.subscribe(store);
@@ -36,20 +38,14 @@ app.on('ready', _ => {
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.show();
-    let windows = BrowserWindow.getAllWindows();
-    dialog.showMessageBox({
-        title : 'All Windows',
-        message : `${windows.map(i=>i.id)}`
+    
+    // Event Listeners for update of timer states
+    store.on('UPDATE', (id) => {
+        let window = BrowserWindow.getAllWindows().find(i=>i.id === id),
+            timer = store.state.find(i => i.id === id);
+        window.webContents.send('update-timer', timer);
     })
-
-    // store.on('UPDATE', (id) => {
-    //     let window = BrowserWindow.getAllWindows(),
-    //         timer = store.state.find(i => i.id === id);
-    //     window.webContents.send('update-timer', timer);
-    // })
-    store.on('UPDATE_ALL', (obj) => {
-        mainWindow.webContents.send('update-state', obj);
-    })
+    
 });
 
 ipcMain.on('create-timer', (event, object) => {
@@ -70,41 +66,34 @@ ipcMain.on('create-timer', (event, object) => {
         e.sender.send('start-timer',object);
         mainWindow.webContents.send('start-timer',object.id);
     })
-
     ipcMain.on('abort',(e,o)=>{
-        dialog.showErrorBox({
-            title : `Can't create timer`,
-            content : 'ERRORR'
-        })
-    })
-    let windows = BrowserWindow.getAllWindows();
-    dialog.showMessageBox({
-        title : 'All Windows',
-        message : `${windows.map(i=>i.id)}`
+        //TODO
     })
     window.on('close',()=>{
-        dialog.showMessageBox({
-            title : 'closing window',
-            message:`${window.id}`
-        })
+        window.removeAllListeners();
+        window = null;
     })
 });
 
-ipcMain.on('delete-timer', (event, id) => {
-    Actions.fire('DELETE_TIMER', id);
+
+
+//Actions fired by timers local stores to update the global store
+
+ipcMain.on('delete-timer', (event, obj) => {
+    Actions.fire('DELETE_TIMER', obj.id);
     let window = BrowserWindow.getAllWindows().find(i => i.id === id);
-    window.close();
+    if(window) window.close();
     window = null;
 });
 
-ipcMain.on('pause-timer', (event, id) => {
-    Actions.fire('PAUSE_TIMER', id);
+ipcMain.on('pause-timer', (event, obj) => {
+    Actions.fire('PAUSE_TIMER', obj);
 });
 
-ipcMain.on('play-timer', (event, id) => {
-    Actions.fire('PLAY_TIMER', id);
+ipcMain.on('play-timer', (event, obj) => {
+    Actions.fire('PLAY_TIMER', obj);
 })
 
-ipcMain.on('update-timer', (event, id) => {
-    Actions.fire('UPDATE_TIMER', id);
+ipcMain.on('add-timer',(event,obj)=>{
+    Actions.fire('ADD_TIMER',o.obj)
 })

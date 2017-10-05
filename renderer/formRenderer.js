@@ -1,25 +1,24 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron'),
+localStore = [];
 
 function addTimer(obj) {
     ipcRenderer.send('create-timer', obj);
+    localStore.push(new LocalStore(obj));
 }
 
-// function render(id) {
-//     ipcRenderer.send('create-timer', id);
-// }
-
 ipcRenderer.on('start-timer',(e,o)=>{
-    ticker(o);
+    localStore.find(i=>i.id === o.id).Run();
 })
 
-ipcRenderer.on('update-state',(e,o)=>{
-    console.log(o);
+ipcRenderer.on('update-timer',(e,o)=>{
+    //Update The State for the component
+    localStore.find(i=>i.id === o.id).Update(o);
 })
 
 function deleteTimer(id) {
-    ipcRenderer.send('delete-timer', id);
+    localStore.find(i=>i.id === id).Delete();
 }
 
 function changeTimerState(action,id) {
-    ipcRenderer.send(action, id);
+    localStore.find(i=>i.id===id).UpdateGlobalStore(action);
 }

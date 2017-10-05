@@ -1,23 +1,17 @@
-const { ipcRenderer, remote } = require('electron');
+const { ipcRenderer, remote } = require('electron'),
+LocalStore = require('../store/LocalStore');
+
+let localStore;
 
 ipcRenderer.on('set-time', (event, obj) => {
     createTimer(obj);
-    if(tmr.title) ipcRenderer.send('timer-set');
-    else ipcRenderer.send('abort');
+    localStore = new LocalStore(obj);
 })
 
 ipcRenderer.on('start-timer',(e,o)=>{
-    ticker(o);
+    localStore.Run();
 })
 
-function deleteTimer(id) {
-    ipcRenderer.send('delete-timer', id);
-}
-
-function changeTimerState(action,id) {
-    ipcRenderer.send(action, id);
-}
-
-function updateTimer(id) {
-    ipcRenderer.send('update-timer', id);
+function changeTimerState(action) {
+    localStore.UpdateGlobalStore(action);
 }
