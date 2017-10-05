@@ -44,6 +44,7 @@ app.on('ready', _ => {
         let window = BrowserWindow.getAllWindows().find(i=>i.id === id),
             timer = store.state.find(i => i.id === id);
         window.webContents.send('update-timer', timer);
+        mainWindow.webContents.send('update-timer',timer);
     })
     
 });

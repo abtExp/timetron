@@ -50,7 +50,8 @@ module.exports = class TimerStore extends EventEmitter {
     }
 
     Update(param) {
-        if(typeof param === 'Number') let timer = this.state.find(i => i.id === param);
+        let timer;
+        if(typeof param === 'Number') timer = this.state.find(i => i.id === param);
         else timer = param;
         this.emit('UPDATE', timer);
     }
