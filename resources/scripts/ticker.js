@@ -1,8 +1,6 @@
 function ticker(timer) {
     if (timer.finished || !timer.state) {
-        clearInterval(timer.ticker);
-        timer.ticker = null;
-        changeTimerState(timer.id);
+        eject(timer);
         return;
     } else {
         timer.ticker = setInterval(_ => {
@@ -18,12 +16,18 @@ function ticker(timer) {
                     timer.secs--;
                 }
             } else {
-                timer.finished = true;
-                timer.state = false;
+                eject(timer);
                 return;
             }
-            updateTimer(timer.id);
         }, 1000);
         return;
     }
+}
+
+function eject(timer){
+    timer.finished = true;
+    timer.state = false;
+    clearInterval(timer.ticker);
+    timer.ticker = null;
+    changeTimerState('pause-timer',timer.id);
 }

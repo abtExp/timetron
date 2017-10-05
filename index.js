@@ -36,12 +36,17 @@ app.on('ready', _ => {
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.show();
-
-    store.on('UPDATE', (id) => {
-        let window = BrowserWindow.getAllWindows().find(i => i.id === id),
-            timer = store.state.find(i => i.id === id);
-        window.webContents.send('update-timer', timer);
+    let windows = BrowserWindow.getAllWindows();
+    dialog.showMessageBox({
+        title : 'All Windows',
+        message : `${windows.map(i=>i.id)}`
     })
+
+    // store.on('UPDATE', (id) => {
+    //     let window = BrowserWindow.getAllWindows(),
+    //         timer = store.state.find(i => i.id === id);
+    //     window.webContents.send('update-timer', timer);
+    // })
     store.on('UPDATE_ALL', (obj) => {
         mainWindow.webContents.send('update-state', obj);
     })
@@ -52,14 +57,36 @@ ipcMain.on('create-timer', (event, object) => {
     let window = new BrowserWindow({
         width: 200,
         height: 200,
-        title: `Timer${store.state.length}`
+        show : false,
+        title: `${object.title}`
     })
+    window.id = object.id;
     window.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
     window.on('ready-to-show', _ => {
-        window.webContents.send('set-time', obj);
+        window.webContents.send('set-time', object);
     })
-    ipc.on('timer-set', _ => {
+    ipcMain.on('timer-set', (e,o) => {
         window.show();
+        e.sender.send('start-timer',object);
+        mainWindow.webContents.send('start-timer',object.id);
+    })
+
+    ipcMain.on('abort',(e,o)=>{
+        dialog.showErrorBox({
+            title : `Can't create timer`,
+            content : 'ERRORR'
+        })
+    })
+    let windows = BrowserWindow.getAllWindows();
+    dialog.showMessageBox({
+        title : 'All Windows',
+        message : `${windows.map(i=>i.id)}`
+    })
+    window.on('close',()=>{
+        dialog.showMessageBox({
+            title : 'closing window',
+            message:`${window.id}`
+        })
     })
 });
 

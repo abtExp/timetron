@@ -27,7 +27,7 @@ class Container extends React.Component{
         return(
             <div>
                 <Title content = 'TimeTron' />
-                <Form display={this.state.formShow} />
+                <Form display={this.state.formShow} onSubmitBTN={this.formToggle.bind(this)}/>
                 <div id='timer_container'>
                     {tims}
                 </div>

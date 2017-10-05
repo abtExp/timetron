@@ -1,6 +1,11 @@
 import React from 'react';
 
 export default class Form extends React.Component{
+    submitAndHide(){
+        this.props.onSubmitBTN();
+        submit();
+    }   
+
     render(){
         return(
             <div id='form' style={{display:this.props.display}}>
@@ -14,7 +19,7 @@ export default class Form extends React.Component{
                     <input type='text' placeholder='00' id='secs' className='time' />
                 <label>Notes</label>
                     <textarea id='note' placeholder='Thoughts...'></textarea>
-                <button id='add_timer' onClick={submit}>add_timer</button>
+                <button id='add_timer' onClick={this.submitAndHide.bind(this)}>add_timer</button>
             </div>
         );
     }

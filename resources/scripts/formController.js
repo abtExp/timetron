@@ -26,5 +26,4 @@ function submit() {
         finished: false
     }
     addTimer(timer);
-    form.style.display = 'none';
 }

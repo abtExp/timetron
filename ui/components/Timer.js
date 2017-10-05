@@ -16,8 +16,12 @@ export default class Timer extends React.Component{
         })
     }
 
+    // componentDidMount(){
+
+    // }
+
     close(){
-        deleteTimer(this.state.timer.id);
+        changeTimerState('delete-timer',this.state.timer.id);
     }
 
     toggle(){

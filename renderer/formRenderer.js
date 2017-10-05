@@ -8,14 +8,18 @@ function addTimer(obj) {
 //     ipcRenderer.send('create-timer', id);
 // }
 
+ipcRenderer.on('start-timer',(e,o)=>{
+    ticker(o);
+})
+
 ipcRenderer.on('update-state',(e,o)=>{
     console.log(o);
 })
 
 function deleteTimer(id) {
-    console.log('deleting');
     ipcRenderer.send('delete-timer', id);
-    ipcRenderer.on('closing', () => {
-        Actions.fire(0, 'DELETE_TIMER', id);
-    })
+}
+
+function changeTimerState(action,id) {
+    ipcRenderer.send(action, id);
 }
