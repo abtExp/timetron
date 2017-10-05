@@ -18,6 +18,7 @@ class LocalStore{
     constructor(obj){
         this.state = obj;
         this.UpdateGlobalStore('add-timer');
+        let name=5;
     }
 
     Run(){
@@ -25,7 +26,7 @@ class LocalStore{
         ticker(this);
         this.UpdateGlobalStore('run-timer');
     }
-
+    
     Pause(){
         this.state.state = false;
         this.UpdateGlobalStore('pause-timer');
