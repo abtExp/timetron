@@ -6,6 +6,7 @@ import Timer from '../Timer';
 class TimerContainer extends React.Component {
     constructor(){
         super();
+        const id = 'Sada';
         this.state = {
             timer : {}
         }
