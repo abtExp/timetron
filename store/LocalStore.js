@@ -14,11 +14,10 @@ const { ipcRenderer } = require('electron');
     }
 */
 
-class LocalStore{
+module.exports = class LocalStore{
     constructor(obj){
         this.state = obj;
         this.UpdateGlobalStore('add-timer');
-        let name=5;
     }
 
     Run(){
@@ -40,7 +39,7 @@ class LocalStore{
         this.state = obj;
     }
     
-    UpdateGlobaStore(event){
+    UpdateGlobalStore(event){
         ipcRenderer.send(event,this.state);
     }
 }

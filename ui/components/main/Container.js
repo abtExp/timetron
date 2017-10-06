@@ -14,6 +14,13 @@ class Container extends React.Component{
             timers : []
         };
     }
+
+    componentWillMount(){
+        console.log(localStore);
+        this.setState({
+            timers : localStore
+        })
+    }
     
     formToggle(){
         this.state.formShow === 'flex' ? this.setState({ formShow : 'none' }) 
@@ -22,7 +29,7 @@ class Container extends React.Component{
 
     render(){
         const tims = this.state.timers.map((i)=>{
-            return (<Timer state={i} key={i.id}/>);
+            return (<Timer state={i.state} key={i.state.id}/>);
         });
         return(
             <div>

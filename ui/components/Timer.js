@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Title from './Title';
-import LocalStore from '../store/LocalStore';
 
 export default class Timer extends React.Component{
     constructor(){

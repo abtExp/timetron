@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron'),
+LocalStore = require('../store/LocalStore'),
 localStore = [];
 
 function addTimer(obj) {
@@ -7,18 +8,18 @@ function addTimer(obj) {
 }
 
 ipcRenderer.on('start-timer',(e,o)=>{
-    localStore.find(i=>i.id === o.id).Run();
+    localStore.find(i=>i.state.id === o.id).Run();
 })
 
 ipcRenderer.on('update-timer',(e,o)=>{
     //Update The State for the component
-    localStore.find(i=>i.id === o.id).Update(o);
+    localStore.find(i=>i.state.id === o.id).Update(o);
 })
 
 function deleteTimer(id) {
-    localStore.find(i=>i.id === id).Delete();
+    localStore.find(i=>i.state.id === id).Delete();
 }
 
 function changeTimerState(action,id) {
-    localStore.find(i=>i.id===id).UpdateGlobalStore(action);
+    localStore.find(i=>i.state.id===id).UpdateGlobalStore(action);
 }

@@ -40,10 +40,19 @@ app.on('ready', _ => {
     mainWindow.show();
     
     // Event Listeners for update of timer states
-    store.on('UPDATE', (id) => {
-        let window = BrowserWindow.getAllWindows().find(i=>i.id === id),
-            timer = store.state.find(i => i.id === id);
-        window.webContents.send('update-timer', timer);
+    store.on('UPDATE', (param) => {
+        dialog.showMessageBox({
+            title : `Checking for`,
+            message : `${param}`
+        })
+        if(typeof param === 'Number') timer = store.state.find(i => i.id === id);
+        else timer = param;
+        let window = BrowserWindow.getAllWindows();//.find(i=>i.id === id),
+        // window.webContents.send('update-timer', timer);
+        dialog.showMessageBox({
+            title : `Available windows`,
+            message : `${window.map(i=>i.id)}`
+        })
         mainWindow.webContents.send('update-timer',timer);
     })
     
@@ -82,7 +91,7 @@ ipcMain.on('create-timer', (event, object) => {
 
 ipcMain.on('delete-timer', (event, obj) => {
     Actions.fire('DELETE_TIMER', obj.id);
-    let window = BrowserWindow.getAllWindows().find(i => i.id === id);
+    let window = BrowserWindow.getAllWindows().find(i => i.id === obj.id);
     if(window) window.close();
     window = null;
 });
@@ -96,5 +105,5 @@ ipcMain.on('play-timer', (event, obj) => {
 })
 
 ipcMain.on('add-timer',(event,obj)=>{
-    Actions.fire('ADD_TIMER',o.obj)
+    Actions.fire('ADD_TIMER',obj)
 })
