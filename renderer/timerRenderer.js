@@ -1,7 +1,6 @@
 const { ipcRenderer, remote } = require('electron'),
 LocalStore = require('../store/LocalStore');
-
-let localStore;
+let localStore = {};
 
 ipcRenderer.on('set-time', (event, obj) => {
     localStore = new LocalStore(obj);

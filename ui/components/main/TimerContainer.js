@@ -11,7 +11,7 @@ class TimerContainer extends React.Component {
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
         console.log('mounting');
         console.log(localStore);
         this.setState({

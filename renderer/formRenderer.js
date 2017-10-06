@@ -8,7 +8,7 @@ function addTimer(obj) {
 }
 
 ipcRenderer.on('start-timer',(e,o)=>{
-    localStore.find(i=>i.state.id === o.id).Run();
+    localStore.find(i=>i.state.id === o).Run();
 })
 
 ipcRenderer.on('update-timer',(e,o)=>{
