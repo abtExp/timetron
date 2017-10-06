@@ -12,7 +12,6 @@ ipcRenderer.on('start-timer',(e,o)=>{
 })
 
 ipcRenderer.on('update-timer',(e,o)=>{
-    //Update The State for the component
     localStore.find(i=>i.state.id === o.id).Update(o);
 })
 

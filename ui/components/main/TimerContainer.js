@@ -12,14 +12,16 @@ class TimerContainer extends React.Component {
     }
 
     componentWillMount(){
+        console.log('mounting');
+        console.log(localStore);
         this.setState({
-            timer : tmr
+            timer : localStore.state
         })
     }
 
     render() {
         return ( 
-            <Timer state = { this.state.timer }/>
+            <Timer state = { this.state.timer } key={this.state.timer.id}/>
         );
     }
 }

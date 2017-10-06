@@ -34,7 +34,7 @@ app.on('ready', _ => {
         resizable: true,
         // fullscreenable : false,
         movable: true,
-        frame: false,
+        // frame: false,
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.show();
@@ -42,24 +42,17 @@ app.on('ready', _ => {
     // Event Listeners for update of timer states
     store.on('UPDATE', (param) => {
         dialog.showMessageBox({
-            title : `Checking for`,
-            message : `${param}`
+            title : `Params`,
+            message : `Param.id = ${param.id}, ids = ${BrowserWindow.getAllWindows().map(i=>i.id)}`
         })
-        if(typeof param === 'Number') timer = store.state.find(i => i.id === id);
-        else timer = param;
-        let window = BrowserWindow.getAllWindows();//.find(i=>i.id === id),
-        // window.webContents.send('update-timer', timer);
-        dialog.showMessageBox({
-            title : `Available windows`,
-            message : `${window.map(i=>i.id)}`
-        })
-        mainWindow.webContents.send('update-timer',timer);
+        let window = BrowserWindow.getAllWindows().find(i=>i.id === param.id);
+        window.webContents.send('update-timer',param);
+        mainWindow.webContents.send('update-timer',param);
     })
     
 });
 
 ipcMain.on('create-timer', (event, object) => {
-    Actions.fire(0, 'ADD_TIMER', object);
     let window = new BrowserWindow({
         width: 200,
         height: 200,
@@ -69,16 +62,17 @@ ipcMain.on('create-timer', (event, object) => {
     window.id = object.id;
     window.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
     window.on('ready-to-show', _ => {
+        window.show();        
         window.webContents.send('set-time', object);
     })
-    ipcMain.on('timer-set', (e,o) => {
-        window.show();
-        e.sender.send('start-timer',object);
+    ipcMain.on('timer-set', (e) => {
+        e.sender.send('start-timer');
         mainWindow.webContents.send('start-timer',object.id);
+        Actions.fire(0, 'ADD_TIMER', object);
     })
-    ipcMain.on('abort',(e,o)=>{
-        //TODO
-    })
+    // ipcMain.on('abort',(e,o)=>{
+    //     //TODO
+    // })
     window.on('close',()=>{
         window.removeAllListeners();
         window = null;
@@ -92,7 +86,10 @@ ipcMain.on('create-timer', (event, object) => {
 ipcMain.on('delete-timer', (event, obj) => {
     Actions.fire('DELETE_TIMER', obj.id);
     let window = BrowserWindow.getAllWindows().find(i => i.id === obj.id);
-    if(window) window.close();
+    if(window){
+        window.close();
+        window.removeAllListeners();
+    }
     window = null;
 });
 

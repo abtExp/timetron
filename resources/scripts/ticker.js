@@ -1,19 +1,20 @@
 function ticker(timer) {
-    if (timer.finished || !timer.state) {
+    console.log('Tick-Tock');
+    if (timer.state.finished || !timer.state.state) {
         eject(timer);
         return;
     } else {
-        timer.ticker = setInterval(_ => {
-            if (timer.mins !== 0 || timer.secs !== 0 || timer.hrs !== 0) {
-                if (timer.secs === 0 && timer.mins !== 0) {
-                    timer.secs = 59;
-                    timer.mins--;
-                } else if ((timer.mins === 0 && timer.secs === 0) && timer.hrs !== 0) {
-                    timer.hrs--;
-                    timer.mins = 59;
-                    timer.secs = 59;
+        timer.state.ticker = setInterval(_ => {
+            if (timer.state.mins !== 0 || timer.state.secs !== 0 || timer.state.hrs !== 0) {
+                if (timer.state.secs === 0 && timer.state.mins !== 0) {
+                    timer.state.secs = 59;
+                    timer.state.mins--;
+                } else if ((timer.state.mins === 0 && timer.state.secs === 0) && timer.state.hrs !== 0) {
+                    timer.state.hrs--;
+                    timer.state.mins = 59;
+                    timer.state.secs = 59;
                 } else {
-                    timer.secs--;
+                    timer.state.secs--;
                 }
             } else {
                 eject(timer);
@@ -25,9 +26,9 @@ function ticker(timer) {
 }
 
 function eject(timer){
-    timer.finished = true;
-    timer.state = false;
-    clearInterval(timer.ticker);
-    timer.ticker = null;
-    changeTimerState('pause-timer',timer.id);
+    timer.state.finished = true;
+    timer.state.state = false;
+    clearInterval(timer.state.ticker);
+    timer.state.ticker = null;
+    changeTimerState('pause-timer',timer.state.id);
 }
