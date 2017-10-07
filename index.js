@@ -49,7 +49,6 @@ app.on('ready', _ => {
         window.webContents.send('update-timer',param);
         mainWindow.webContents.send('update-timer',param);
     })
-    
 });
 
 ipcMain.on('create-timer', (event, object) => {

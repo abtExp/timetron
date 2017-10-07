@@ -21,6 +21,19 @@ class Container extends React.Component{
             timers : localStore
         })
     }
+
+    componentDidMount(){
+        let timers = this.state.timers;
+        localStore.map(i=>{
+            i.on('update-state',(e,o)=>{
+                timer = timers.indexOf(timers.find(i=>i.id === o.id));
+                timers[timer] = o;
+                this.setState({
+                    timers : timers
+                })
+            })
+        })
+    }
     
     formToggle(){
         this.state.formShow === 'flex' ? this.setState({ formShow : 'none' }) 

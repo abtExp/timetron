@@ -1,4 +1,4 @@
-const EventEmitter = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 /* Schema : 
     TimerObject = {
         id : unique_id,
@@ -57,7 +57,6 @@ module.exports = class TimerStore extends EventEmitter {
     }
 
     UpdateAll() {
-        this.emit('UPDATE_ALL', this.state);
         this.state.map(i=>this.Update(i.id));
     }
 }

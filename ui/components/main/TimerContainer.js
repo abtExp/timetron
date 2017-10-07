@@ -11,11 +11,19 @@ class TimerContainer extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentWillMount(){
         console.log('mounting');
         console.log(localStore);
         this.setState({
             timer : localStore.state
+        })
+    }
+
+    componentDidMount(){
+        localStore.on('update-state',(e,o)=>{
+            this.setState({
+                timer : o
+            })
         })
     }
 

@@ -20,5 +20,10 @@ function deleteTimer(id) {
 }
 
 function changeTimerState(action,id) {
-    localStore.find(i=>i.state.id===id).UpdateGlobalStore(action);
+    console.log(`Performing action ${action} on timer ${id}`);
+    console.log(localStore[0].state.id);
+    let timer = localStore.find(i=>i.state.id===id);
+    if(action === 'play-timer') timer.Run();
+    else if(action === 'pause-timer') timer.Pause();
+    else if(action === 'delete-timer') timer.Delete();
 }

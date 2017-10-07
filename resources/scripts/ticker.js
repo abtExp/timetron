@@ -1,5 +1,6 @@
 function ticker(timer) {
     console.log('Tick-Tock');
+    console.log(timer.state);
     if (timer.state.finished || !timer.state.state) {
         eject(timer);
         return;
@@ -20,6 +21,7 @@ function ticker(timer) {
                 eject(timer);
                 return;
             }
+            timer.Update(timer.state);
         }, 1000);
         return;
     }

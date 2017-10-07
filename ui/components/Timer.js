@@ -21,18 +21,18 @@ export default class Timer extends React.Component{
     // }
 
     close(){
-        changeTimerState('delete-timer',this.state.timer.id);
+        changeTimerState('delete-timer',this.state.timer);
     }
 
     toggle(){
         //make a toggle function to send ipc requests to the main process
         if(this.state.timer.state){
             ticker(this.state.timer);
-            changeTimerState('pause-timer',this.state.timer.id);
+            changeTimerState('pause-timer',this.state.timer);
         }
         else{
             ticker(this.state.timer);
-            changeTimerState('play-timer',this.state.timer.id);
+            changeTimerState('play-timer',this.state.timer);
         }
     }
 
