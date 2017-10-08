@@ -1,4 +1,3 @@
-// const Actions = require('../actions/Actions');
 let id = 2;
 
 function submit() {

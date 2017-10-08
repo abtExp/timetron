@@ -41,10 +41,6 @@ app.on('ready', _ => {
     
     // Event Listeners for update of timer states
     store.on('UPDATE', (param) => {
-        dialog.showMessageBox({
-            title : `Params`,
-            message : `Param.id = ${param.id}, ids = ${BrowserWindow.getAllWindows().map(i=>i.id)}`
-        })
         let window = BrowserWindow.getAllWindows().find(i=>i.id === param.id);
         window.webContents.send('update-timer',param);
         mainWindow.webContents.send('update-timer',param);
@@ -67,20 +63,13 @@ ipcMain.on('create-timer', (event, object) => {
     ipcMain.on('timer-set', (e) => {
         e.sender.send('start-timer');
         mainWindow.webContents.send('start-timer',object.id);
-        Actions.fire(0, 'ADD_TIMER', object);
     })
-    // ipcMain.on('abort',(e,o)=>{
-    //     //TODO
-    // })
     window.on('close',()=>{
         window.removeAllListeners();
         window = null;
     })
 });
 
-
-
-//Actions fired by timers local stores to update the global store
 
 ipcMain.on('delete-timer', (event, obj) => {
     Actions.fire('DELETE_TIMER', obj.id);
@@ -93,13 +82,17 @@ ipcMain.on('delete-timer', (event, obj) => {
 });
 
 ipcMain.on('pause-timer', (event, obj) => {
-    Actions.fire('PAUSE_TIMER', obj);
+    Actions.fire(0,'PAUSE_TIMER', obj);
 });
 
-ipcMain.on('play-timer', (event, obj) => {
-    Actions.fire('PLAY_TIMER', obj);
+ipcMain.on('run-timer', (event, obj) => {
+    Actions.fire(0,'PLAY_TIMER', obj);
 })
 
 ipcMain.on('add-timer',(event,obj)=>{
-    Actions.fire('ADD_TIMER',obj)
+    Actions.fire(0,'ADD_TIMER',obj)
+})
+
+ipcMain.on('delete-timer',(e,o)=>{
+    Actions.fire(0,'DELETE_TIMER',o.id);
 })

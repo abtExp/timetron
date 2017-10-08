@@ -8,16 +8,12 @@ function addTimer(obj) {
 }
 
 ipcRenderer.on('start-timer',(e,o)=>{
-    localStore.find(i=>i.state.id === o).Run();
+    changeTimerState('play-timer',o);
 })
 
 ipcRenderer.on('update-timer',(e,o)=>{
-    localStore.find(i=>i.state.id === o.id).Update(o);
+    changeTimerState('update-timer',o);
 })
-
-function deleteTimer(id) {
-    localStore.find(i=>i.state.id === id).Delete();
-}
 
 function changeTimerState(action,obj) {
     console.log(`Performing action ${action} on timer ${obj}`);
@@ -26,4 +22,5 @@ function changeTimerState(action,obj) {
     if(action === 'play-timer') timer.Run();
     else if(action === 'pause-timer') timer.Pause();
     else if(action === 'delete-timer') timer.Delete();
+    else if(action === 'update-timer') timer.Update(obj);
 }

@@ -8,13 +8,16 @@ ipcRenderer.on('set-time', (event, obj) => {
 })
 
 ipcRenderer.on('start-timer',_=>{
-    localStore.Run();
+    changeTimerState('play-timer');
 })
 
 ipcRenderer.on('update-timer',(e,o)=>{
-    localStore.Update(o);
+    changeTimerState('update-timer',o);
 })
 
-function changeTimerState(action) {
-    localStore.UpdateGlobalStore(action);
+function changeTimerState(action,obj) {
+    if(action === 'play-timer') localStore.Run();
+    else if(action === 'pause-timer') localStore.Pause();
+    else if(action === 'delete-timer') localStore.Delete();
+    else if(action === 'update-timer') localStore.Update(obj);
 }

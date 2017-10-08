@@ -21,12 +21,11 @@ module.exports = class TimerStore extends EventEmitter {
 
     Add(obj) {
         this.state = [...this.state, obj];
-        this.Update(obj);
     }
 
     Delete(id) {
         this.state = this.state.filter(i => i.id !== id);
-        this.Update(id);
+        
     }
 
     Run(id) {
@@ -50,9 +49,7 @@ module.exports = class TimerStore extends EventEmitter {
     }
 
     Update(param) {
-        let timer;
-        if(typeof param === 'Number') timer = this.state.find(i => i.id === param);
-        else timer = param;
+        let timer = this.state.find(i => i.id === param);
         this.emit('UPDATE', timer);
     }
 

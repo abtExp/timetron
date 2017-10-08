@@ -42,8 +42,7 @@ class LocalStore extends EventEmitter{
     Delete(){
         console.log('Deleting Timer');
         clearInterval(this.state.ticker);
-        this.state = {};
-        this.Update(this.state);
+        this.Update({});
         this.UpdateGlobalStore('delete-timer');
     }
 
