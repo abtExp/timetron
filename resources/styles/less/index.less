@@ -5,8 +5,9 @@
 @green : "";
 @blue : "";
 @grey : "";
-
-
+@icon_color:"";
+@icon_size : 0;
+@px :px;
 .title{
     color : @accent-color;
     font-size : 2em;
@@ -17,4 +18,42 @@ html,body{
     width : 100%;
     height: 100%;
     background-color : #2BCF9E;
+}
+
+.icon_clr(@shade) when(@shade = 'dark'){
+    @icon_color : white;
+}
+
+.icon_clr(@shade) when(@shade = 'bright'){
+    @icon_color : black;
+}
+
+.material-design(){
+    padding : 10px;
+    border-radius : 200px;
+    box-shadow : 0px 0px 4px #555;
+    width : 20% auto;
+    height : 20% auto;
+}
+
+.material-icon(@shade,@icon,@size){
+    .icon_clr(@shade);
+    @icon_size : @size@px;
+    @icon_url : replace(%('../../icons/ic_%a_%s_%d.svg',@icon,@icon_color,@icon_size)," ","");
+    background : url(@icon_url);
+    background-repeat: no-repeat;
+    .material-design;
+}
+
+#close{
+    .material-icon('dark',close,36);
+}
+
+.timers{
+    background : #fff;
+    box-shadow : 0px 0px 5px #333;
+    width : 80%;
+    display : flex;
+    flex-direction : row;
+    justify-content : center;
 }
