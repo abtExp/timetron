@@ -27,6 +27,10 @@ class Container extends React.Component{
         localStore.map(i=>{
             i.on('update-state',(e,o)=>{
                 timer = timers.indexOf(timers.find(i=>i.id === o.id));
+                if(Object.getOwnPropertyNames(o).length === 0){
+                    console.log('Unmounting Node');
+                    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(timer));
+                }
                 timers[timer] = o;
                 this.setState({
                     timers : timers

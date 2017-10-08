@@ -17,6 +17,7 @@ export default class Timer extends React.Component{
     }
 
     close(){
+
         changeTimerState('delete-timer',this.state.timer);
     }
 
@@ -29,9 +30,13 @@ export default class Timer extends React.Component{
         }
     }
 
+    componentWillUnmount(){
+        console.log('Deleting Timer From Node');
+    }
+
     render(){
         return(
-            <div class='timers'>
+            <div className='timers'>
             <span id='close_btn'><div onClick={this.close.bind(this)} id='close'></div></span>
             <div onClick={this.toggle.bind(this)}>
             <Title content={this.state.timer.title} /> 

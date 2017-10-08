@@ -25,7 +25,6 @@ module.exports = class TimerStore extends EventEmitter {
 
     Delete(id) {
         this.state = this.state.filter(i => i.id !== id);
-        
     }
 
     Run(id) {
