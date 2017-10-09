@@ -25,6 +25,9 @@ module.exports = class TimerStore extends EventEmitter {
 
     Delete(id) {
         this.state = this.state.filter(i => i.id !== id);
+        // Update the localStores, if the delete event is fired
+        // from the form renderer then the timerRenderer window for
+        // given timer must also be deleted
     }
 
     Run(id) {

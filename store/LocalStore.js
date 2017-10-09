@@ -20,14 +20,12 @@ class LocalStore extends EventEmitter{
         console.log(`Creating a new Timer instance of ${this}`);
         this.state = obj;
         this.Update(obj);
-        this.UpdateGlobalStore('add-timer');
     }
 
     Run(){
         console.log('Resuming Timer');
         this.state.state = true;
         ticker(this);
-        this.Update(this.state);
         this.UpdateGlobalStore('run-timer');
     }
     

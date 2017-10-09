@@ -57,12 +57,12 @@ ipcMain.on('create-timer', (event, object) => {
     window.id = object.id;
     window.loadURL(path.join('file:///', __dirname, 'ui/timer.html'));
     window.on('ready-to-show', _ => {
-        window.show();        
         window.webContents.send('set-time', object);
     })
     ipcMain.on('timer-set', (e) => {
+        window.show();        
         e.sender.send('start-timer');
-        mainWindow.webContents.send('start-timer',object.id);
+        mainWindow.webContents.send('start-timer',object);
     })
     window.on('close',()=>{
         window.removeAllListeners();

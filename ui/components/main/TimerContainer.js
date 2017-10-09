@@ -21,9 +21,6 @@ class TimerContainer extends React.Component {
 
     componentDidMount(){
         localStore.on('update-state',(e,o)=>{
-            if(!o){
-                this.componentWillUnmount();
-            }
             this.setState({
                 timer : o
             })
@@ -32,7 +29,7 @@ class TimerContainer extends React.Component {
 
     render() {
         return ( 
-            <Timer state = { this.state.timer } key={this.state.timer.id}/>
+            <Timer state = { this.state.timer }/>
         );
     }
 }

@@ -4,7 +4,9 @@ localStore = [];
 
 function addTimer(obj) {
     ipcRenderer.send('create-timer', obj);
-    localStore.push(new LocalStore(obj));
+    let timer = new LocalStore(obj);
+    localStore.push(timer);
+    timer.UpdateGlobalStore('add-timer');
 }
 
 ipcRenderer.on('start-timer',(e,o)=>{
