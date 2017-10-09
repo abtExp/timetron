@@ -13,11 +13,37 @@
     font-size : 2em;
     font-family : Courier New, Courier, monospace;
 }
+
+@font-face{
+    font-family : 'muli';
+    src: url('../../fonts/Muli-Regular.ttf');
+    font-weight : normal;
+}
+
+@font-face{
+    font-family : 'muli';
+    src : url('../../fonts/Muli-Italic.ttf');
+    font-style : italic;
+}
+
+@font-face{
+    font-family : 'muli';
+    src : url('../../fonts/Muli-Light.ttf');
+    font-weight : lighter;
+}
+
+@font-face{
+    font-family : 'muli';
+    src : url('../../fonts/Muli-Bold.ttf');
+    font-weight : bold;
+}
+
 html,body{
     border-radius:150px;
     width : 100%;
     height: 100%;
     background-color : #2BCF9E;
+    font-family : 'muli',Courier New, Courier, monospace;
 }
 
 .icon_clr(@shade) when(@shade = 'dark'){
