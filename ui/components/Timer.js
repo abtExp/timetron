@@ -16,6 +16,14 @@ export default class Timer extends React.Component{
         })
     }
 
+    componentDidMount(){
+        localStore.on('update-state',(e,o)=>{
+            this.setState({
+                timer : o
+            })
+        })
+    }
+
     close(){
         changeTimerState('delete-timer',this.state.timer);
     }
