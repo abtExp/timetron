@@ -7,16 +7,18 @@ class TimerContainer extends React.Component {
     constructor(){
         super();
         this.state = {
-            timer : {}
+            timer : {
+                id : 'unique_id',
+                title : 'timer',
+                hrs : 0,
+                mins : 0,
+                secs : 0,
+                notes : 'if any',
+                state : false,
+                finish : false,
+                ticker : null
+            }
         }
-    }
-
-    componentWillMount(){
-        console.log('mounting');
-        console.log(localStore);
-        this.setState({
-            timer : localStore.state
-        })
     }
 
     componentDidMount(){

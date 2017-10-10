@@ -6,17 +6,7 @@ export default class Timer extends React.Component{
     constructor(){
         super();
         this.state = {
-            timer : {
-                id : 'unique_id',
-                title : 'timer',
-                hrs : 0,
-                mins : 0,
-                secs : 0,
-                notes : 'if any',
-                state : false,
-                finish : false,
-                ticker : null
-            }
+            timer : {}
         };
     }
 
@@ -27,7 +17,6 @@ export default class Timer extends React.Component{
     }
 
     close(){
-
         changeTimerState('delete-timer',this.state.timer);
     }
 
@@ -49,7 +38,7 @@ export default class Timer extends React.Component{
             <div className='timers'>
             <span id='close_btn'><div onClick={this.close.bind(this)} id='close'></div></span>
             <div onClick={this.toggle.bind(this)}>
-            <Title content={this.state.timer.title} /> 
+            <Title content={this.state.timer.title} />
             <Title content={this.state.timer.hrs} />
             <Title content={this.state.timer.mins} />
             <Title content={this.state.timer.secs} />
