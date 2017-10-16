@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Title from './Title';
+
 export default class Form extends React.Component{
     submitAndHide(){
         this.props.onSubmitBTN();
@@ -9,6 +11,7 @@ export default class Form extends React.Component{
     render(){
         return(
             <div id='form' style={{display:this.props.display}}>
+            <Title content = 'TimeTron' />
                 <label>Title</label>
                     <input type='text' placeholder='Stuff' id='title' className='time' />
                 <label>Hrs</label>
