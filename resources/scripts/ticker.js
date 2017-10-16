@@ -1,6 +1,5 @@
 function ticker(timer) {
     console.log('Tick-Tock');
-    console.log(timer.state);
     if (timer.state.finished || !timer.state.state) {
         eject(timer);
         return;
@@ -31,6 +30,5 @@ function eject(timer){
     timer.state.finished = true;
     timer.state.state = false;
     clearInterval(timer.state.ticker);
-    timer.state.ticker = null;
     changeTimerState('pause-timer',timer.state.id);
 }

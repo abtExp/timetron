@@ -18,7 +18,6 @@ class LocalStore extends EventEmitter{
     constructor(obj){
         super();
         console.log(`Creating a new Timer instance of ${this}`);
-        this.state = obj;
         this.Update(obj);
     }
 

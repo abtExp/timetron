@@ -22,7 +22,9 @@ class TimerContainer extends React.Component {
     }
 
     componentDidMount(){
+        console.log(localStore);
         localStore.on('update-state',(e,o)=>{
+            console.log('setting state');
             this.setState({
                 timer : o
             })
@@ -30,6 +32,7 @@ class TimerContainer extends React.Component {
     }
 
     render() {
+        console.log(localStore);
         return ( 
             <Timer state = { this.state.timer }/>
         );
