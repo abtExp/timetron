@@ -4,37 +4,11 @@ import ReactDOM from 'react-dom';
 import Timer from '../Timer';
 
 class TimerContainer extends React.Component {
-    constructor(){
-        super();
-        this.state = {
-            timer : {
-                id : 'unique_id',
-                title : 'timer',
-                hrs : 0,
-                mins : 0,
-                secs : 0,
-                notes : 'if any',
-                state : false,
-                finish : false,
-                ticker : null
-            }
-        }
-    }
-
-    componentDidMount(){
-        console.log(localStore);
-        localStore.on('update-state',(e,o)=>{
-            console.log('setting state');
-            this.setState({
-                timer : o
-            })
-        })
-    }
 
     render() {
         console.log(localStore);
         return ( 
-            <Timer state = { this.state.timer }/>
+            <Timer state = { localStore }/>
         );
     }
 }

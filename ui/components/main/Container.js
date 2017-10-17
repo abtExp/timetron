@@ -25,16 +25,6 @@ class Container extends React.Component{
             this.setState({
                 timers: o
             })
-            // o.map(i=>{
-            //     i.on('update-state',(d)=>{
-            //         let timer = timers.indexOf(timers.find(i=>i.id === d.id));
-            //         if(Object.getOwnPropertyNames(d).length === 0){
-            //             console.log('Unmounting Node');
-            //             document.getElementById('timer_container')
-            //             .removeChild(document.getElementById('timer'+timer));
-            //         }
-            //     })
-            // })
         })
     }    
     
@@ -48,7 +38,7 @@ class Container extends React.Component{
         timers = this.state.timers;
         if(timers.length > 0){
             tims = timers.map((i)=>{
-                return (<Timer state={i.state} key={i.state.id}/>);
+                return (<Timer state={i} key={i.state.id}/>);
             });
         }
         else{

@@ -13,13 +13,13 @@ class LocalTimerStore extends EventEmitter{
 
     Delete(timerStoreObject){
         this.timers = this.timers.filter(i=>i.state.id === timerStoreObject.state.id);
+        timerStoreObject.Delete();
         this.Update(timerStoreObject,'delete-timer');
     }
 
     Update(timerStoreObject,event){
         console.log(event);
         this.emit('update-state',this.timers);
-        timerStoreObject.UpdateGlobalStore(event);
     }
 }
 

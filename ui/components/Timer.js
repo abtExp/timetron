@@ -12,14 +12,11 @@ export default class Timer extends React.Component{
 
     componentWillMount(){
         this.setState({
-            timer : this.props.state
+            timer : this.props.state.state
         })
-    }
-
-    componentDidMount(){
-        localStore.on('update-state',(e,o)=>{
+        this.props.state.on('update-state',(o)=>{
             this.setState({
-                timer : o
+                timer:o
             })
         })
     }
