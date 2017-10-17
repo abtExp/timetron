@@ -96,3 +96,5 @@ ipcMain.on('add-timer',(event,obj)=>{
 ipcMain.on('delete-timer',(e,o)=>{
     Actions.fire(0,'DELETE_TIMER',o.id);
 })
+
+app.on('window-all-closed',app.quit);

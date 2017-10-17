@@ -1,12 +1,12 @@
 const { ipcRenderer } = require('electron'),
 LocalStore = require('../store/LocalStore'),
-localStore = [];
+LocalTimerStore = require('../store/LocalTimerStore');
+localStore = new LocalTimerStore();
 
 function addTimer(obj) {
     ipcRenderer.send('create-timer', obj);
     let timer = new LocalStore(obj);
-    localStore.push(timer);
-    timer.UpdateGlobalStore('add-timer');
+    localStore.Add(timer);
 }
 
 ipcRenderer.on('start-timer',(e,o)=>{
@@ -19,10 +19,9 @@ ipcRenderer.on('update-timer',(e,o)=>{
 
 function changeTimerState(action,obj) {
     console.log(`Performing action ${action} on timer ${obj}`);
-    console.log(localStore[0].state.id);
-    let timer = localStore.find(i=>i.state.id===obj.id);
+    let timer = localStore.timers.find(i=>i.state.id===obj.id);
     if(action === 'play-timer') timer.Run();
     else if(action === 'pause-timer') timer.Pause();
-    else if(action === 'delete-timer') timer.Delete();
+    else if(action === 'delete-timer') localStore.Delete(timer);
     else if(action === 'update-timer') timer.Update(obj);
 }
