@@ -31,7 +31,8 @@ class Container extends React.Component{
                 let timer = timers.indexOf(timers.find(i=>i.id === o.id));
                 if(Object.getOwnPropertyNames(o).length === 0){
                     console.log('Unmounting Node');
-                    // ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(timer));
+                    document.getElementById('timer_container')
+                    .removeChild(document.getElementById('timer'+timer));
                 }
                 timers[timer] = o;
                 this.setState({
@@ -48,16 +49,37 @@ class Container extends React.Component{
 
     render(){
         console.log(localStore);
-        const tims = this.state.timers.map((i)=>{
-            return (<Timer state={i.state} key={i.state.id}/>);
-        });
+        let tims;
+        if(localStore.length > 0){
+            tims = this.state.timers.map((i)=>{
+                return (<Timer state={i.state} key={i.state.id}/>);
+            });
+            localStore.map(i=>{
+                i.on('update-state',(e,o)=>{
+                    console.log('setting state');
+                    let timer = timers.indexOf(timers.find(i=>i.id === o.id));
+                    if(Object.getOwnPropertyNames(o).length === 0){
+                        console.log('Unmounting Node');
+                        document.getElementById('timer_container')
+                        .removeChild(document.getElementById('timer'+timer));
+                    }
+                    timers[timer] = o;
+                    this.setState({
+                        timers : timers
+                    })
+                })
+            })
+        }
+        else{
+            tims = <h1>No Timers</h1>;
+        }
         return(
             <div>
                 <Form display={this.state.formShow} onSubmitBTN={this.formToggle.bind(this)}/>
                 <div id='timer_container'>
                     {tims}
                 </div>
-                <button id='form_toggle' onClick={this.formToggle.bind(this)}>Open Form</button>
+                <button id='form_toggle' className='btns' onClick={this.formToggle.bind(this)}>Open Form</button>
             </div>
         );
     }

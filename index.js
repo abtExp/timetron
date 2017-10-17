@@ -29,11 +29,11 @@ app.on('ready', _ => {
     mainWindow = new BrowserWindow({
         width: 500,
         height: 600,
-        x: device_width - this.width,
-        y: device_height - this.height,
+        x: device_width,
+        y:device_height,
         resizable: true,
-        // fullscreenable : false,
-        movable: true,
+        fullscreenable : false,
+        movable: false,
         // frame: false,
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));

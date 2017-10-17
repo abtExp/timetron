@@ -31,10 +31,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   margin: 0px;
   padding: 0px;
-  text-align: center;
-  background-color: #2BCF9E;
+  background-color: "#008382";
   font-family: 'muli', Courier New, Courier, monospace;
 }
 * {
@@ -49,8 +49,7 @@ body {
   width: 20% auto;
   height: 20% auto;
 }
-#form_toggle,
-#add_timer {
+.btns {
   padding: 10px;
   border-radius: 200px;
   box-shadow: 0px 0px 4px #555;
@@ -66,8 +65,9 @@ body {
   box-shadow: 0px 0px 5px #333;
   width: 80%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  text-align: center;
 }
 .time {
   flex: 1;
@@ -88,6 +88,15 @@ label {
   width: 93%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  text-align: center;
   padding: 20px;
   background: #fff;
+}
+#timer_container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
