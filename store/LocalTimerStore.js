@@ -17,9 +17,9 @@ class LocalTimerStore extends EventEmitter{
         this.Update(timerStoreObject,'delete-timer');
     }
 
-    Update(timerStoreObject,event){
-        console.log(event);
+    Update(timerStoreObject,e){
         this.emit('update-state',this.timers);
+        timerStoreObject.UpdateGlobalStore(e);
     }
 }
 

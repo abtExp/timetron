@@ -3,6 +3,7 @@ const electron = require('electron'),
     { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
     TimerStore = require('./store/TimerStore'),
     path = require('path'),
+    fs = require('fs'),
     autoLaunch = require('auto-launch'),
     Actions = require('./actions/Actions'),
     store = new TimerStore();
@@ -82,19 +83,25 @@ ipcMain.on('delete-timer', (event, obj) => {
 });
 
 ipcMain.on('pause-timer', (event, obj) => {
-    Actions.fire(0,'PAUSE_TIMER', obj);
+    Actions.fire(0,'PAUSE_TIMER', obj.id);
 });
 
 ipcMain.on('run-timer', (event, obj) => {
-    Actions.fire(0,'PLAY_TIMER', obj);
+    Actions.fire(0,'PLAY_TIMER', obj.id);
 })
 
 ipcMain.on('add-timer',(event,obj)=>{
-    Actions.fire(0,'ADD_TIMER',obj)
+    Actions.fire(0,'ADD_TIMER',obj);
 })
 
 ipcMain.on('delete-timer',(e,o)=>{
     Actions.fire(0,'DELETE_TIMER',o.id);
 })
 
-app.on('window-all-closed',app.quit);
+app.on('window-all-closed',()=>{
+    let timers = Actions.fire(0,'GET_ALL');
+    console.log(timers);
+    // let file = fs.writeFile('timers.json',,(err)=>{
+    //     if(err) console.log(err);
+    //     else console.log('Written Successfully');
+});
