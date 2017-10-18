@@ -100,8 +100,8 @@ ipcMain.on('delete-timer',(e,o)=>{
 
 app.on('window-all-closed',()=>{
     let timers = Actions.fire(0,'GET_ALL');
-    console.log(timers);
-    // let file = fs.writeFile('timers.json',,(err)=>{
-    //     if(err) console.log(err);
-    //     else console.log('Written Successfully');
+    let file = fs.writeFile('timers.json',JSON.stringify(timers),(err)=>{
+        if(err) console.log(err);
+        else console.log('Written Successfully');
+    });
 });

@@ -41,7 +41,7 @@ export default class Timer extends React.Component{
     render(){
         return(
             <div className='timers' id={`timer${this.state.timer.id}`}>
-            <span id='close_btn'><div onClick={this.close.bind(this)} id='close'></div></span>
+            <span id='close_btn'><button onClick={this.close.bind(this)} id='close'>Delete Timer</button></span>
             <div onClick={this.toggle.bind(this)}>
             <Title content={this.state.timer.title} />
             <Title content={this.state.timer.hrs} />
