@@ -25,15 +25,16 @@ class LocalStore extends EventEmitter{
         console.log('Resuming Timer');
         this.state.state = true;
         ticker(this);
-        this.UpdateGlobalStore('run-timer');
+        this.UpdateGlobalStore('update-timer');
     }
     
     Pause(){
         console.log('Pausing Timer');
         this.state.state = false;
         clearInterval(this.state.ticker);
+        this.state.ticker = null;
         this.Update(this.state);
-        this.UpdateGlobalStore('pause-timer');
+        this.UpdateGlobalStore('update-timer');
     }
 
     Delete(){

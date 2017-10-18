@@ -30,7 +30,7 @@ module.exports = class Actions{
             return Actions.subscribers[store_id].state.length;
         }
         else if(type === 'UPDATE_TIMER'){
-            Actions.subscribers[store_id].Update();
+            Actions.subscribers[store_id].Update(payload);
         }
     }
 }

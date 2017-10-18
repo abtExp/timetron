@@ -23,24 +23,23 @@ module.exports = class TimerStore extends EventEmitter {
         this.state = [...this.state, obj];
     }
 
-    Delete(id) {
-        this.state = this.state.filter(i => i.id !== id);
-        // Update the localStores, if the delete event is fired
-        // from the form renderer then the timerRenderer window for
-        // given timer must also be deleted
+    Delete(obj) {
+        this.state = this.state.filter(i => i.id !== obj.id);
     }
 
-    Run(id) {
-        let timer = this.state.find(i => i.id === id);
-        timer.state = true;
-        this.Update(id);
-    }
+    // Run(t) {
+    //     let timer = this.state.find(i => i.id === t.id);
+    //     timer = t;
+    //     this.state = [...this.state,timer];
+    //     this.Update(t.id);
+    // }
 
-    Pause(id) {
-        let timer = this.state.find(i => i.id === id);
-        timer.state = false;
-        this.Update(id);
-    }
+    // Pause(t) {
+    //     let timer = this.state.find(i => i.id === t.id);
+    //     timer = t;
+    //     this.state = [...this.state,timer]
+    //     this.Update(t.id);
+    // }
 
     Get(id) {
         return this.state.find(i => i.id === id)
@@ -50,12 +49,13 @@ module.exports = class TimerStore extends EventEmitter {
         return this.state;
     }
 
-    Update(param) {
-        let timer = this.state.find(i => i.id === param);
-        this.emit('UPDATE', timer);
+    Update(obj) {
+        let timer = this.state.find(i => i.id === obj.id);
+        this.state[this.state.indexOf(timer)] = obj;
+        this.emit('UPDATE', obj);
     }
 
     UpdateAll() {
-        this.state.map(i=>this.Update(i.id));
+        this.state.map(i=>this.Update(i));
     }
 }

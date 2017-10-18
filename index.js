@@ -19,6 +19,7 @@ const electron = require('electron'),
 // The Dashboard Window
 let mainWindow;
 
+// The App start procedures 
 app.on('ready', _ => {
     Actions.init();
     Actions.subscribe(store);
@@ -48,6 +49,8 @@ app.on('ready', _ => {
     })
 });
 
+
+// Event triggers when a new timer is created from the form
 ipcMain.on('create-timer', (event, object) => {
     let window = new BrowserWindow({
         width: 200,
@@ -73,7 +76,7 @@ ipcMain.on('create-timer', (event, object) => {
 
 
 ipcMain.on('delete-timer', (event, obj) => {
-    Actions.fire('DELETE_TIMER', obj.id);
+    Actions.fire(0,'DELETE_TIMER', obj);
     let window = BrowserWindow.getAllWindows().find(i => i.id === obj.id);
     if(window){
         window.close();
@@ -82,23 +85,28 @@ ipcMain.on('delete-timer', (event, obj) => {
     window = null;
 });
 
+// IPC Events to sync the timers in the formRenderer and the timerRenderer
+
 ipcMain.on('pause-timer', (event, obj) => {
-    Actions.fire(0,'PAUSE_TIMER', obj.id);
+    Actions.fire(0,'PAUSE_TIMER', obj);
 });
 
 ipcMain.on('run-timer', (event, obj) => {
-    Actions.fire(0,'PLAY_TIMER', obj.id);
+    Actions.fire(0,'PLAY_TIMER', obj);
 })
 
-ipcMain.on('add-timer',(event,obj)=>{
+ipcMain.on('add-timer', (event,obj)=>{
     Actions.fire(0,'ADD_TIMER',obj);
 })
 
-ipcMain.on('delete-timer',(e,o)=>{
-    Actions.fire(0,'DELETE_TIMER',o.id);
+ipcMain.on('update-timer', (event,obj)=>{
+    Actions.fire(0,'UPDATE_TIMER',obj);
 })
 
-app.on('window-all-closed',()=>{
+
+//Store timers for resuming on next session when the app is about to quit
+
+app.on('will-quit',()=>{
     let timers = Actions.fire(0,'GET_ALL');
     let file = fs.writeFile('timers.json',JSON.stringify(timers),(err)=>{
         if(err) console.log(err);

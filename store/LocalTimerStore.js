@@ -18,7 +18,7 @@ class LocalTimerStore extends EventEmitter{
         this.Update();
     }
 
-    Update(timerStoreObject,e){
+    Update(){
         this.emit('update-state',this.timers);
     }
 }
