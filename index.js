@@ -53,7 +53,7 @@ app.on('ready', _ => {
 // Event triggers when a new timer is created from the form
 ipcMain.on('create-timer', (event, object) => {
     let window = new BrowserWindow({
-        width: 200,
+        width: 400,
         height: 200,
         show : false,
         title: `${object.title}`

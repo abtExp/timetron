@@ -42,11 +42,11 @@ export default class Timer extends React.Component{
         return(
             <div className='timers' id={`timer${this.state.timer.id}`}>
             <span id='close_btn'><button onClick={this.close.bind(this)} id='close'>Delete Timer</button></span>
-            <div onClick={this.toggle.bind(this)}>
-            <Title content={this.state.timer.title} />
-            <Title content={this.state.timer.hrs} />
-            <Title content={this.state.timer.mins} />
-            <Title content={this.state.timer.secs} />
+            <div onClick={this.toggle.bind(this)} className='timeDisp'>
+            <Title className='timeD' content={this.state.timer.title} />
+            <Title className='timeD' content={this.state.timer.hrs} />
+            <Title className='timeD' content={this.state.timer.mins} />
+            <Title className='timeD' content={this.state.timer.secs} />
             </div>
             </div>
         )
