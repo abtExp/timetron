@@ -75,6 +75,9 @@ ipcMain.on('create-timer', (event, object) => {
 });
 
 
+
+// IPC Events to sync the timers in the formRenderer and the timerRenderer
+
 ipcMain.on('delete-timer', (event, obj) => {
     Actions.fire(0,'DELETE_TIMER', obj);
     let window = BrowserWindow.getAllWindows().find(i => i.id === obj.id);
@@ -85,14 +88,14 @@ ipcMain.on('delete-timer', (event, obj) => {
     window = null;
 });
 
-// IPC Events to sync the timers in the formRenderer and the timerRenderer
-
 ipcMain.on('pause-timer', (event, obj) => {
-    Actions.fire(0,'PAUSE_TIMER', obj);
+    mainWindow.webContents.send('pause-timer',obj);
+    BrowserWindow.getAllWindows().find(i=>i.id===obj.id).webContents.send('pause-timer',obj);
+    Actions.fire(0,'UPDATE_TIMER', obj);
 });
 
 ipcMain.on('run-timer', (event, obj) => {
-    Actions.fire(0,'PLAY_TIMER', obj);
+    Actions.fire(0,'UPDATE_TIMER', obj);
 })
 
 ipcMain.on('add-timer', (event,obj)=>{

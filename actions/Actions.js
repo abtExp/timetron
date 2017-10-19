@@ -14,12 +14,12 @@ module.exports = class Actions{
         else if(type === 'DELETE_TIMER'){
             Actions.subscribers[store_id].Delete(payload);
         }
-        else if(type === 'RUN_TIMER'){
-            Actions.subscribers[store_id].Run(payload);
-        } 
-        else if(type === 'PAUSE_TIMER'){
-            Actions.subscribers[store_id].Pause(payload);
-        } 
+        // else if(type === 'RUN_TIMER'){
+        //     Actions.subscribers[store_id].Run(payload);
+        // } 
+        // else if(type === 'PAUSE_TIMER'){
+        //     Actions.subscribers[store_id].Pause(payload);
+        // } 
         else if(type === 'GET_ALL'){
             return Actions.subscribers[store_id].GetAll();
         }

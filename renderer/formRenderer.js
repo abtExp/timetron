@@ -13,6 +13,10 @@ ipcRenderer.on('start-timer',(e,o)=>{
     changeTimerState('play-timer',o);
 })
 
+ipcRenderer.on('pause-timer',(e,o)=>{
+    changeTimerState('pause-timer',o);
+})
+
 ipcRenderer.on('update-timer',(e,o)=>{
     changeTimerState('update-timer',o);
 })
