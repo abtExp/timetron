@@ -16,6 +16,11 @@ function ticker(timer) {
                 } else {
                     timer.state.secs--;
                 }
+                if (timer.state.finished || !timer.state.state) {
+                    clearInterval(timer.state.ticker);
+                    timer.state.ticker = null;
+                    return;
+                }
             } else {
                 eject(timer);
                 return;
@@ -30,5 +35,6 @@ function eject(timer){
     timer.state.finished = true;
     timer.state.state = false;
     clearInterval(timer.state.ticker);
+    timer.state.ticker = null;
     changeTimerState('pause-timer',timer.state.id);
 }

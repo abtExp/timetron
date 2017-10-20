@@ -89,8 +89,6 @@ ipcMain.on('delete-timer', (event, obj) => {
 });
 
 ipcMain.on('pause-timer', (event, obj) => {
-    mainWindow.webContents.send('pause-timer',obj);
-    BrowserWindow.getAllWindows().find(i=>i.id===obj.id).webContents.send('pause-timer',obj);
     Actions.fire(0,'UPDATE_TIMER', obj);
 });
 
