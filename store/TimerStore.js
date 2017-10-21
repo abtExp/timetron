@@ -27,20 +27,6 @@ module.exports = class TimerStore extends EventEmitter {
         this.state = this.state.filter(i => i.id !== obj.id);
     }
 
-    // Run(t) {
-    //     let timer = this.state.find(i => i.id === t.id);
-    //     timer = t;
-    //     this.state = [...this.state,timer];
-    //     this.Update(t.id);
-    // }
-
-    // Pause(t) {
-    //     let timer = this.state.find(i => i.id === t.id);
-    //     timer = t;
-    //     this.state = [...this.state,timer]
-    //     this.Update(t.id);
-    // }
-
     Get(id) {
         return this.state.find(i => i.id === id)
     }

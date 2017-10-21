@@ -22,7 +22,8 @@ function submit() {
         secs,
         notes,
         state: true,
-        finished: false
+        finished: false,
+        ticker : null
     }
     addTimer(timer);
 }
