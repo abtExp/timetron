@@ -21,7 +21,7 @@ ipcRenderer.on('update-timer',(e,o)=>{
 
 function changeTimerState(action,obj) {
     if(action === 'play-timer') localStore.Run();
-    else if(action === 'pause-timer') localStore.Pause();
+    else if(action === 'pause-timer') localStore.Pause(obj);
     else if(action === 'delete-timer') localStore.Delete();
     else if(action === 'update-timer') localStore.Update(obj);
 }

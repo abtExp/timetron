@@ -28,10 +28,11 @@ class LocalStore extends EventEmitter{
         this.UpdateGlobalStore('run-timer');
     }
     
-    Pause(){
+    Pause(obj){
         console.log('Pausing Timer');
-        this.state.state = false;
+        this.state = obj;
         clearInterval(this.state.ticker);
+        this.state.state = false;
         this.state.ticker = null;
         this.Update(this.state);
         this.UpdateGlobalStore('pause-timer');

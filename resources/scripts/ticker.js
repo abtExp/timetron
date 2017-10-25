@@ -4,7 +4,7 @@ function ticker(timer) {
         eject(timer);
         return;
     } else {
-        timer.state.ticker = setInterval(_ => {
+        let ticker = setInterval(_ => {
             if (timer.state.mins !== 0 || timer.state.secs !== 0 || timer.state.hrs !== 0) {
                 if (timer.state.secs === 0 && timer.state.mins !== 0) {
                     timer.state.secs = 59;
@@ -27,6 +27,7 @@ function ticker(timer) {
             }
             timer.Update(timer.state);
         }, 1000);
+        timer.state.ticker = ticker;
         return;
     }
 }
