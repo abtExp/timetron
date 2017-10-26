@@ -24,7 +24,7 @@ ipcRenderer.on('update-timer',(e,o)=>{
 function changeTimerState(action,obj) {
     console.log(`Performing action ${action} on timer ${obj}`);
     let timer = localStore.timers.find(i=>i.state.id===obj.id);
-    if(action === 'play-timer') timer.Run();
+    if(action === 'play-timer') timer.Run(obj);
     else if(action === 'pause-timer') timer.Pause(obj);
     else if(action === 'delete-timer') localStore.Delete(timer);
     else if(action === 'update-timer') timer.Update(obj);

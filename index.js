@@ -42,10 +42,10 @@ app.on('ready', _ => {
     mainWindow.show();
     
     // Event Listeners for update of timer states
-    store.on('UPDATE', (param) => {
+    store.on('UPDATE', (e,param) => {
         let window = BrowserWindow.getAllWindows().find(i=>i.id === param.id);
-        window.webContents.send('update-timer',param);
-        mainWindow.webContents.send('update-timer',param);
+        window.webContents.send(e,param);
+        mainWindow.webContents.send(e,param);
     })
 });
 
@@ -84,16 +84,16 @@ ipcMain.on('delete-timer', (event, obj) => {
     if(window){
         window.close();
         window.removeAllListeners();
+        window = null;
     }
-    window = null;
 });
 
 ipcMain.on('pause-timer', (event, obj) => {
-    Actions.fire(0,'UPDATE_TIMER', obj);
+    Actions.fire(0,'PAUSE_TIMER', obj);
 });
 
 ipcMain.on('run-timer', (event, obj) => {
-    Actions.fire(0,'UPDATE_TIMER', obj);
+    Actions.fire(0,'RUN_TIMER', obj);
 })
 
 ipcMain.on('add-timer', (event,obj)=>{

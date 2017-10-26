@@ -24,13 +24,13 @@ class LocalStore extends EventEmitter{
     Run(){
         console.log('Resuming Timer');
         this.state.state = true;
+        this.state.ticker = null;
         ticker(this);
         this.UpdateGlobalStore('run-timer');
     }
     
     Pause(obj){
         console.log('Pausing Timer');
-        this.state = obj;
         clearInterval(this.state.ticker);
         this.state.state = false;
         this.state.ticker = null;
@@ -50,7 +50,6 @@ class LocalStore extends EventEmitter{
     Update(obj){
         console.log('Updating the Timer State');
         this.state = obj;
-        console.log(this.state.ticker);
         this.emit('update-state',this.state);
     }
     
