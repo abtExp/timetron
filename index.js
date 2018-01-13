@@ -65,7 +65,8 @@ ipcMain.on('create-timer', (event, object) => {
     renderWindow.on('ready-to-show', _ => {
         renderWindow.webContents.send('set-time', object);
     })
-    ipcMain.on('timer-set', (e) => {
+    ipcMain.on('timer-set', (e,id) => {
+        let renderWindow = BrowserWindow.getAllWindows().find(i=>i.id === id);
         renderWindow.show();
         e.sender.send('start-timer');
         mainWindow.webContents.send('start-timer', object);

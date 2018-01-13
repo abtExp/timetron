@@ -4,7 +4,7 @@ let localStore = new LocalStore({});
 
 ipcRenderer.on('set-time', (event, obj) => {
     localStore.state = obj;
-    ipcRenderer.send('timer-set');
+    ipcRenderer.send('timer-set',obj.id);
 })
 
 ipcRenderer.on('start-timer', _ => {
