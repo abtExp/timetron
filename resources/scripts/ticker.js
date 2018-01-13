@@ -32,10 +32,11 @@ function ticker(timer) {
     }
 }
 
-function eject(timer){
+function eject(timer) {
     timer.state.finished = true;
     timer.state.state = false;
     clearInterval(timer.state.ticker);
     timer.state.ticker = null;
-    changeTimerState('pause-timer',timer.state.id);
+    // have to get the dispatcher here as well
+    changeTimerState('pause-timer', timer.state);
 }

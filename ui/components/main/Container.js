@@ -38,7 +38,7 @@ class Container extends React.Component{
         timers = this.state.timers;
         if(timers.length > 0){
             tims = timers.map((i)=>{
-                return (<Timer state={i} key={i.state.id}/>);
+                return (<Timer state={i} dispatcher='form' key={i.state.id}/>);
             });
         }
         else{

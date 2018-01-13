@@ -35,10 +35,10 @@ module.exports = class TimerStore extends EventEmitter {
         return this.state;
     }
 
-    Update(e,obj) {
+    Update(e,obj,dispatcher) {
         let timer = this.state.find(i => i.id === obj.id);
         this.state[this.state.indexOf(timer)] = obj;
-        this.emit('UPDATE', e,obj);
+        this.emit('UPDATE', e,obj,dispatcher);
     }
 
     UpdateAll() {

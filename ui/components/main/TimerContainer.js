@@ -8,7 +8,7 @@ class TimerContainer extends React.Component {
     render() {
         console.log(localStore);
         return ( 
-            <Timer state = { localStore }/>
+            <Timer state = { localStore } dispatcher='timer'/>
         );
     }
 }

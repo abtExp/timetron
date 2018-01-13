@@ -1,5 +1,5 @@
 const { ipcRenderer, remote } = require('electron'),
-LocalStore = require('../store/LocalStore');
+    LocalStore = require('../store/LocalStore');
 let localStore = new LocalStore({});
 
 ipcRenderer.on('set-time', (event, obj) => {
@@ -7,21 +7,21 @@ ipcRenderer.on('set-time', (event, obj) => {
     ipcRenderer.send('timer-set');
 })
 
-ipcRenderer.on('start-timer',_=>{
-    changeTimerState('play-timer');
+ipcRenderer.on('start-timer', _ => {
+    changeTimerState('play-timer', 'form');
 })
 
-ipcRenderer.on('pause-timer',(e,o)=>{
-    changeTimerState('pause-timer');
+ipcRenderer.on('pause-timer', (e, o) => {
+    changeTimerState('pause-timer', 'form');
 })
 
-ipcRenderer.on('update-timer',(e,o)=>{
-    changeTimerState('update-timer',o);
+ipcRenderer.on('update-timer', (e, o) => {
+    changeTimerState('update-timer', o, 'form');
 })
 
-function changeTimerState(action,obj) {
-    if(action === 'play-timer') localStore.Run();
-    else if(action === 'pause-timer') localStore.Pause(obj);
-    else if(action === 'delete-timer') localStore.Delete();
-    else if(action === 'update-timer') localStore.Update(obj);
+function changeTimerState(action, obj, dispatcher, self='timer') {
+    if (action === 'play-timer') localStore.Run(self,dispatcher);
+    else if (action === 'pause-timer') localStore.Pause(self,dispatcher);
+    else if (action === 'delete-timer') localStore.Delete(self,dispatcher);
+    else if (action === 'update-timer') localStore.Update(obj,self,dispatcher);
 }
