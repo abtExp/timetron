@@ -25,17 +25,17 @@ class LocalStore extends EventEmitter {
     Delete(self, dispatcher) {
         clearInterval(this.state.ticker);
         this.removeAllListeners();
+        this.UpdateGlobalStore('delete-timer', dispatcher);
         this.state = {};
-        if(self === dispatcher) this.UpdateGlobalStore('delete-timer', dispatcher);
     }
 
     Update() {
         this.emit('update-state', this.state);
     }
 
-    UpdateGlobalStore(event, dispatcher = 'timer') {
+    UpdateGlobalStore(e, dispatcher = 'timer') {
         console.log('Updating the Global Store');
-        ipcRenderer.send(event, this.state, dispatcher);
+        ipcRenderer.send(e, this.state, dispatcher);
     }
 }
 

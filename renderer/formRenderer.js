@@ -21,6 +21,10 @@ ipcRenderer.on('update-timer', (e, o) => {
     changeTimerState('update-timer', o, 'timer');
 })
 
+ipcRenderer.on('delete-timer', (e, o) => {
+    changeTimerState('delete-timer', o)
+})
+
 function changeTimerState(action, obj, dispatcher, self = 'form') {
     let timer = localStore.timers.find(i => i.state.id === obj.id);
     if (action === 'play-timer') timer.Run(self,dispatcher);

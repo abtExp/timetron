@@ -42,11 +42,9 @@ export default class Timer extends React.Component {
     render() {
         return ( 
         <div className = 'timers' id = { `timer${this.state.timer.id}` }>
-            <span id = 'close_btn'> 
-            <button onClick = { this.close.bind(this) }id = 'close' > Delete Timer </button>
-            </span>
-            <div onClick = { this.toggle.bind(this) } className = 'timeDisp'>
+            <button onClick = { this.close.bind(this) } id = 'close' className='btn'></button>
                 <Title className = 'timeD' content = { this.state.timer.title }/>
+            <div onClick = { this.toggle.bind(this) } className = 'timeDisp'>
                 <Title className = 'timeD' content = { this.state.timer.hrs }/>
                 <Title className = 'timeD' content = { this.state.timer.mins }/>
                 <Title className = 'timeD' content = { this.state.timer.secs }/>

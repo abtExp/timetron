@@ -15,6 +15,14 @@ const electron = require('electron'),
  ****     |#|   \#####/          |####/   \#####/   ************
  ***************************************************************/
 
+/* Deleting of the timers and attatching to other processes *****
+ *      _______   _____           _____     _____    ************
+ ****  |#######| /#####\          |####\   /#####\   ************
+ ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+ ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+ ****     |#|    \#####/          |####/   \#####/   ************
+ ***************************************************************/
+
 // The Dashboard Window
 let mainWindow;
 
@@ -78,10 +86,6 @@ ipcMain.on('create-timer', (event, object) => {
     renderWindow.on('closed',()=>{
         renderWindow = null;
     })
-    dialog.showMessageBox({
-        title: 'All windows',
-        message: `${BrowserWindow.getAllWindows().map(i=>i.id)}`
-    })
 });
 
 
@@ -90,6 +94,7 @@ ipcMain.on('create-timer', (event, object) => {
 
 ipcMain.on('delete-timer', (event, obj, dispatcher) => {
     Actions.fire(0, 'DELETE_TIMER', obj, dispatcher);
+    if(dispatcher === 'timer') mainWindow.webContents.send('delete-timer',obj);
     let renderWindow = BrowserWindow.getAllWindows().find(i => i.id === obj.id);
     if (renderWindow) {
         renderWindow.removeAllListeners();

@@ -50,7 +50,7 @@ class Container extends React.Component{
                 <div id='timer_container'>
                     {tims}
                 </div>
-                <button id='form_toggle' className='btns' onClick={this.formToggle.bind(this)}>Open Form</button>
+                <button id='form_toggle' className='btns' onClick={this.formToggle.bind(this)}></button>
             </div>
         );
     }
