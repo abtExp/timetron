@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+const { EventEmitter } = require('events');
 /* Schema : 
     TimerObject = {
         id : unique_id,
@@ -13,7 +13,7 @@ import { EventEmitter } from 'events';
     }
 */
 
-export default class TimerStore extends EventEmitter {
+module.exports = class TimerStore extends EventEmitter {
     constructor() {
         super();
         this.state = [];

@@ -16,20 +16,13 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.ui\.js$/,
+            test: /\.js$/,
             exclude: /node_modules/,
             loader:'babel-loader',
-            query:{
-                presets:['env','react']
+            options:{
+                cacheDirectory:true,
+                presets:['react','env']
             }
-        },{
-            test:/\.js$/,
-            exclude:/node_modules/,
-            loader: 'babel-loader',
-            options: {
-                cacheDirectory: true,
-                presets:['env']
-            },
         }]
     },
     plugins: [

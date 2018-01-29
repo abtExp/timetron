@@ -1,21 +1,20 @@
-// const electron = require('electron');
-// const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
-// fs = require('fs'),
-// path = require('path'),
-// autoLaunch = require('auto-launch'),
-// TimerStore = require('./store/TimerStore'),
-// Actions = require('./actions/Actions'),
-// screen = electron.screen;
+const electron = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
+fs = require('fs'),
+path = require('path'),
+autoLaunch = require('auto-launch'),
+TimerStore = require('./store/TimerStore'),
+Actions = require('./actions/Actions');
 
-import 'electron';
-import { app, BrowserWindow, ipcMain, autoUpdater } from 'electron';
-import 'fs';
-import 'path';
-import * as autoLaunch from 'auto-launch';
-import './store/TimerStore';
-import './actions/Actions';
+// import 'electron';
+// import { app, BrowserWindow, ipcMain, autoUpdater } from 'electron';
+// import 'fs';
+// import 'path';
+// import * as autoLaunch from 'auto-launch';
+// import './store/TimerStore';
+// import './actions/Actions';
 
-const screen = electron.screen;
+// const screen = electron.screen;
 
 /* Implement code for auto launch on startup  *******************
  *      _______   _____           _____     _____    ************
@@ -33,7 +32,7 @@ const store = new TimerStore();
 
 // The main Window
 let mainWindow,
-    checkUpdates;
+checkUpdates;
 
 app.on('ready', _ => {
     const screen = electron.screen;
@@ -73,6 +72,26 @@ app.on('ready', _ => {
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.show();
 
+    mainWindow.on('close',()=>{
+        /* timerActive ? saveTimersAndClose : close          ************
+         *      _______   _____           _____     _____    ************
+         ****  |#######| /#####\          |####\   /#####\   ************
+         ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+         ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+         ****     |#|    \#####/          |####/   \#####/   ************
+         ***************************************************************/
+    })
+    
+    mainWindow.on('minimize',()=>{
+        /* minimize to tray                                  ************
+         *      _______   _____           _____     _____    ************
+         ****  |#######| /#####\          |####\   /#####\   ************
+         ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+         ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+         ****     |#|    \#####/          |####/   \#####/   ************
+         ***************************************************************/
+    })
+    
     // Event Listeners for update of timer states
     store.on('UPDATE', (e, param, dispatcher) => {
         if (dispatcher === 'timer') {
@@ -86,26 +105,6 @@ app.on('ready', _ => {
     if(checkUpdates) autoUpdater.checkForUpdates();
 });
 
-
-mainWindow.on('close',()=>{
-    /* timerActive ? saveTimersAndClose : close          ************
-     *      _______   _____           _____     _____    ************
-     ****  |#######| /#####\          |####\   /#####\   ************
-     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
-     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
-     ****     |#|    \#####/          |####/   \#####/   ************
-     ***************************************************************/
-})
-
-mainWindow.on('minimize',()=>{
-    /* minimize to tray                                  ************
-     *      _______   _____           _____     _____    ************
-     ****  |#######| /#####\          |####\   /#####\   ************
-     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
-     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
-     ****     |#|    \#####/          |####/   \#####/   ************
-     ***************************************************************/
-})
 
 // Event triggers when a new timer is created from the form
 ipcMain.on('create-timer', (event, object) => {

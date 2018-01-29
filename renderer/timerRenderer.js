@@ -1,5 +1,5 @@
-import  { ipcRenderer, remote } from 'electron';
-import '../store/LocalStore';
+const { ipcRenderer, remote } = require('electron'),
+LocalStore = require('../store/LocalStore');
 
 const localStore = new LocalStore({});
 

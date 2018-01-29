@@ -1,6 +1,6 @@
-import { ipcRenderer } from 'electron';
-import '../store/LocalStore';
-import '../store/LocalTimerStore';
+const { ipcRenderer } = require('electron'),
+LocalStore = require('../store/LocalStore'),
+LocalTimerStore = require( '../store/LocalTimerStore');
 
 const localStore = new LocalTimerStore();
 

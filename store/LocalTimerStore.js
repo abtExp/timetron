@@ -1,6 +1,6 @@
-import { EventEmitter } from 'events';
+const { EventEmitter } = require('events');
 
-export default class LocalTimerStore extends EventEmitter{
+module.exports = class LocalTimerStore extends EventEmitter{
     constructor(){
         super();
         this.timers = [];

@@ -1,4 +1,4 @@
-export default class Actions {
+module.exports = class Actions {
     static init() {
         Actions.subscribers = [];
     }
