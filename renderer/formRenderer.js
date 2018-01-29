@@ -1,7 +1,8 @@
-const { ipcRenderer } = require('electron'),
-    LocalStore = require('../store/LocalStore'),
-    LocalTimerStore = require('../store/LocalTimerStore');
-localStore = new LocalTimerStore();
+import { ipcRenderer } from 'electron';
+import '../store/LocalStore';
+import '../store/LocalTimerStore';
+
+const localStore = new LocalTimerStore();
 
 function addTimer(obj) {
     ipcRenderer.send('create-timer', obj);

@@ -1,11 +1,11 @@
 @theme-color : #39ff8b;
-@accent-color-light : rgb(70, 72, 73);
+@accent-color-light : #464849;
 @accent-color-dark : #fff;
-@yellow : rgb(255, 252, 81);
-@red : rgb(255, 71, 58);
-@green : rgb(96, 255, 117);
-@blue : rgb(34, 146, 238);
-@grey : rgb(86, 110, 122);
+@yellow : #fffc51;
+@red : #ff473a;
+@green : #60ff75;
+@blue : #2292ee;
+@grey : #566e7a;
 @icon_color:"";
 @icon_size : 25;
 @px :px;
@@ -53,9 +53,13 @@ html,body{
     .flexy();
     margin : 0px;
     padding : 0px;
-    color:@accent-color-dark;
-    background-color: @theme-color;
+    outline:none;
+    color:@accent-color-light;
     font-family : 'muli',Courier New, Courier, monospace;
+}
+
+#app-container{
+    overflow:hidden;
 }
 
 *{
@@ -66,12 +70,11 @@ html,body{
     @icon_color : white;
 }
 
-.icon_clr(@shade) when(@shade = 'bright'){
+.icon_clr(@shade) when(@shade = 'light'){
     @icon_color : black;
 }
 
 .material-design(){
-    padding : 10px;
     border-radius : 200px;
     box-shadow : 0px 0px 4px @grey;
     border:none;
@@ -83,61 +86,72 @@ html,body{
     @icon_url : replace(%('../../icons/ic_%a_%s_%d.svg',@icon,@icon_color,@icon_size)," ","");
     background : url(@icon_url);
     background-repeat: no-repeat;
+    width:20px;
+    padding:20px;
+    background-size:contain;   
     .material-design;
+}
+
+.btns:hover{
+    box-shadow:0px 0px 4px #888;
+    transition:0.3s ease;
 }
 
 #close{
     .material-icon('dark',close,24);
     position: relative;
     left: 0px;
-    margin: 0px;
-    width:10px;
-    padding:20px;
-    background-size:contain;   
+    padding:15px;
+    margin:0px;
     box-shadow:none;
 }
 
 #form_toggle{
     .material-icon('dark',add, 36);
-    margin:auto;
-    padding:20px;
+    width:100%;
+    height:100%;
+    box-shadow: none;
+}
+
+#backg{
     position:fixed;
     bottom:20px;
-    background-size:contain;
+    left:50%;
+    padding:5px;
+    background:@green;
+    border-radius:200px;
+    box-shadow:0px 0px 5px #888;
+}
+
+#delete{
+    .material-icon('dark',delete,24);
+    position: relative;
+    left: 20px;
+    padding:15px;
+    margin:0px;
+    box-shadow:none;
 }
 
 #closeForm{
     .material-icon('dark',close,36);
     position: relative;
     left: 0px;
-    width: 10px;
-    margin: 0px;
-    padding:20px;
+    padding:15px;
 }
 
 #add_timer{
     .material-icon('dark',alarm_add,36);
-    margin: 20px auto;
+    margin: 10px auto;
     width: 20px;
-    padding: 20px;
 }
 
-.btns{
-    .material-design();
-    color : #333;
-    border : none;
-    flex : 1;
-    background-size: contain;
-}
-.btns{
-    box-shadow:0px 0px 2px #333;
-    transition:0.3s ease;
-}
+
 
 .timers{
     background : @blue;
     box-shadow : 0px 0px 5px #333;
     width : 80%;
+    max-width:400px;
     margin : auto;
     .flexy();
 }
@@ -145,13 +159,13 @@ html,body{
 .time{
     flex : 1;
     border : none;
-    padding : 5px;
+    padding :10px;
     background:none;
     font-size:1em;
     color:@accent-color-dark;
     border-bottom : 2px solid @green;
     line-height: 2em;
-    width : 100%;
+    width : 90%;
     transition: 0.3s ease;
     outline:none;
     margin:10px auto;
@@ -172,32 +186,35 @@ label{
 }
 
 #timerDesc{
-    display:flex;
+    display: flex;
     flex-direction: row;
-    margin:20px;
-    padding:20px;
+    justify-content: center;
+    padding: 20px;
+    width:70%;
+    margin:auto;
 }
 
 .tms{
     flex:1;
+    width:100px;
 }
 
+#timerDesc :nth-child(1),
 #timerDesc :nth-child(2){
     margin-right:10px;
-    margin-left:10px;
 }
 
 #form{
-    position:fixed;
-    top:0px;
-    margin:auto;
-    z-index:99;
     .flexy();
-    padding : 20px;
     background : @grey;
     color:@accent-color-dark;
     border-radius : 0px 0px 5px 5px;
     box-shadow : 2px 3px 5px #666;
+    width: 90%;
+    margin-top:0px;
+    margin: auto;
+    z-index: 99;
+    padding: 10px;
 }
 
 textarea{
@@ -218,4 +235,20 @@ textarea{
 
 .timeD{
     flex :1;
+}
+
+#clrPikr{
+    width:70%;
+    margin:auto;
+    display:flex;
+    padding:20px;
+    flex-direction:row;
+    justify-content: space-between;
+}
+
+.clrPick{
+    border:2px solid white;
+    border-radius:200px;
+    width:30px;
+    height:30px;
 }

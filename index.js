@@ -1,21 +1,23 @@
-const electron = require('electron'),
-    { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
-    TimerStore = require('./store/TimerStore'),
-    path = require('path'),
-    fs = require('fs'),
-    autoLaunch = require('auto-launch'),
-    Actions = require('./actions/Actions'),
-    store = new TimerStore();
+// const electron = require('electron');
+// const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
+// fs = require('fs'),
+// path = require('path'),
+// autoLaunch = require('auto-launch'),
+// TimerStore = require('./store/TimerStore'),
+// Actions = require('./actions/Actions'),
+// screen = electron.screen;
 
+import 'electron';
+import { app, BrowserWindow, ipcMain, autoUpdater } from 'electron';
+import 'fs';
+import 'path';
+import * as autoLaunch from 'auto-launch';
+import './store/TimerStore';
+import './actions/Actions';
 
-/* Update and other stuff goes here  ***************************
- *       ______  _____           _____     _____    ************
- ****   /#####/ /#####\   _____  |####\   /#####\   ************
- ****     |#|  |##| |##| |_____| |#|_|#| |##| |##|  ************
- ****     |#|   \#####/          |####/   \#####/   ************
- ***************************************************************/
+const screen = electron.screen;
 
-/* Deleting of the timers and attatching to other processes *****
+/* Implement code for auto launch on startup  *******************
  *      _______   _____           _____     _____    ************
  ****  |#######| /#####\          |####\   /#####\   ************
  ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
@@ -23,27 +25,50 @@ const electron = require('electron'),
  ****     |#|    \#####/          |####/   \#####/   ************
  ***************************************************************/
 
-// The Dashboard Window
-let mainWindow;
+//getting apps directory for autoUpdate and also to save timers info 
+const appPath = app.getAppPath();
 
-// The App start procedures 
+// initializing the store for saving timers.
+const store = new TimerStore();
+
+// The main Window
+let mainWindow,
+    checkUpdates;
+
 app.on('ready', _ => {
-    Actions.init();
-    Actions.subscribe(store);
-
     const screen = electron.screen;
     let device_width = screen.getPrimaryDisplay().workAreaSize.width,
-        device_height = screen.getPrimaryDisplay().workAreaSize.height;
+    device_height = screen.getPrimaryDisplay().workAreaSize.height,
+    timersFile;
+    
+    Actions.init();
+    Actions.subscribe(store);
+    
+    /* Read The timers.json file if exists and load timers **********
+     *      _______   _____           _____     _____    ************
+     ****  |#######| /#####\          |####\   /#####\   ************
+     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+     ****     |#|    \#####/          |####/   \#####/   ************
+     ***************************************************************/
+
+    if(fs.existsSync(path.resolve(appPath,'/timers.json'))){
+        checkUpdates = true;
+        fs.readFile(path.resolve(appPath,'/timers.json'),(file)=>{
+            timersFile = JSON.parse(file);
+            // launch the main window with the stored objects.
+        });
+    }
 
     mainWindow = new BrowserWindow({
         width: 500,
-        height: 600,
+        height: 650,
         x: device_width,
         y: device_height,
         resizable: true,
         fullscreenable: false,
         movable: false,
-        // frame: false,
+        frame: process.env.NODE_ENV === 'production' ? false : true,
     });
     mainWindow.loadURL(path.join('file:///', __dirname, './ui/index.html'));
     mainWindow.show();
@@ -57,8 +82,30 @@ app.on('ready', _ => {
             renderWindow.webContents.send(e, param,dispatcher);
         }
     })
+
+    if(checkUpdates) autoUpdater.checkForUpdates();
 });
 
+
+mainWindow.on('close',()=>{
+    /* timerActive ? saveTimersAndClose : close          ************
+     *      _______   _____           _____     _____    ************
+     ****  |#######| /#####\          |####\   /#####\   ************
+     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+     ****     |#|    \#####/          |####/   \#####/   ************
+     ***************************************************************/
+})
+
+mainWindow.on('minimize',()=>{
+    /* minimize to tray                                  ************
+     *      _______   _____           _____     _____    ************
+     ****  |#######| /#####\          |####\   /#####\   ************
+     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+     ****     |#|    \#####/          |####/   \#####/   ************
+     ***************************************************************/
+})
 
 // Event triggers when a new timer is created from the form
 ipcMain.on('create-timer', (event, object) => {
@@ -66,6 +113,7 @@ ipcMain.on('create-timer', (event, object) => {
         width: 400,
         height: 200,
         show: false,
+        frame:false,
         title: `${object.title}`
     })
     renderWindow.id = object.id;
@@ -124,9 +172,32 @@ ipcMain.on('update-timer', (event, obj) => {
 
 app.on('will-quit', () => {
     let timers = Actions.fire(0, 'GET_ALL');
-    let file = fs.writeFile('timers.json', JSON.stringify(timers), (err) => {
+    let file = fs.writeFile('timers.json', JSON.stringify(timers,null,4), (err) => {
         if (err) console.log(err);
         else console.log('Written Successfully');
         app.quit();
     });
 });
+
+/**-----------------------------------------------------------------------------------------------|
+ *                              Update Related Stuff                                              |                            |
+ **----------------------------------------------------------------------------------------------*/
+autoUpdater.on('update-available',()=>{
+    /* Display Alert to update the app                   ************
+     *      _______   _____           _____     _____    ************
+     ****  |#######| /#####\          |####\   /#####\   ************
+     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+     ****     |#|    \#####/          |####/   \#####/   ************
+     ***************************************************************/
+})
+
+autoUpdater.on('update-downloaded',()=>{
+    /* Pause all timers, save state, quit and install, reload timers
+     *      _______   _____           _____     _____    ************
+     ****  |#######| /#####\          |####\   /#####\   ************
+     ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+     ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+     ****     |#|    \#####/          |####/   \#####/   ************
+     ***************************************************************/
+})

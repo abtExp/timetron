@@ -5,7 +5,7 @@ function submit() {
         Hrs = document.getElementById('hrs').value,
         Mins = document.getElementById('mins').value,
         Secs = document.getElementById('secs').value,
-        Notes = document.getElementById('note').value,
+        Notes = document.getElementById('note').value.split('\n'),
         form = document.getElementById('form'),
 
         title = Title || 'Task',

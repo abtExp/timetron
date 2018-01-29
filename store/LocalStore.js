@@ -1,7 +1,7 @@
-const { ipcRenderer } = require('electron');
-const { EventEmitter } = require('events');
+import { ipcRenderer } from 'electron';
+import { EventEmitter } from 'events';
 
-class LocalStore extends EventEmitter {
+export default class LocalStore extends EventEmitter {
     constructor(obj) {
         super();
         this.state = obj;
@@ -38,5 +38,3 @@ class LocalStore extends EventEmitter {
         ipcRenderer.send(e, this.state, dispatcher);
     }
 }
-
-module.exports = LocalStore;
