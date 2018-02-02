@@ -1,4 +1,4 @@
-const {merge} = require('webpack-merge'),
+const merge = require('webpack-merge'),
 common = require('./webpack.common'),
 webpack = require('webpack'),
 uglify = require('uglifyjs-webpack-plugin');
