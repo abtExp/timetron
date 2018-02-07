@@ -47,6 +47,7 @@
     "electron-reload": "^1.2.1",
     "jest": "^20.0.4",
     "less": "^2.7.2",
+    "ps-list": "^4.0.0",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.2.0",
     "webpack-merge": "^4.1.1"

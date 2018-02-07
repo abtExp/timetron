@@ -3,6 +3,7 @@ const { app, BrowserWindow, dialog, ipcMain, autoUpdater } = electron,
 fs = require('fs'),
 path = require('path'),
 autoLaunch = require('auto-launch'),
+ps = require('ps-list'),
 TimerStore = require('./store/TimerStore'),
 Actions = require('./actions/Actions');
 
@@ -177,6 +178,28 @@ app.on('will-quit', () => {
         app.quit();
     });
 });
+
+/**-----------------------------------------------------------------------------------------------|
+ *                              Attatching To Processes                                           |                            |
+ **----------------------------------------------------------------------------------------------*/
+
+
+/* Provide an interface to attatch the timer to process *********
+ *      _______   _____           _____     _____    ************
+ ****  |#######| /#####\          |####\   /#####\   ************
+ ****     |#|   |#|   |#|  _____  |#| |#| |#|   |#|  ************
+ ****     |#|   |#|   |#| |_____| |#|_|#| |#|   |#|  ************
+ ****     |#|    \#####/          |####/   \#####/   ************
+ ***************************************************************/
+
+ipcMain.on('get-processes',()=>{
+    const procList = ps().then(dat=>{
+        console.log(dat);
+    })
+})
+
+
+
 
 /**-----------------------------------------------------------------------------------------------|
  *                              Update Related Stuff                                              |                            |
