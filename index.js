@@ -35,6 +35,10 @@ const store = new TimerStore();
 let mainWindow,
 checkUpdates;
 
+/**-----------------------------------------------------------------------------------------------|
+ *                              The Main Process                                                  |
+ **----------------------------------------------------------------------------------------------*/
+
 app.on('ready', _ => {
     const screen = electron.screen;
     let device_width = screen.getPrimaryDisplay().workAreaSize.width,
@@ -138,6 +142,10 @@ ipcMain.on('create-timer', (event, object) => {
 
 
 
+/**-----------------------------------------------------------------------------------------------|
+ *                              The Event Handling                                                |
+ **----------------------------------------------------------------------------------------------*/
+
 // IPC Events to sync the timers in the formRenderer and the timerRenderer
 
 ipcMain.on('delete-timer', (event, obj, dispatcher) => {
@@ -197,8 +205,6 @@ ipcMain.on('get-processes',()=>{
         console.log(dat);
     })
 })
-
-
 
 
 /**-----------------------------------------------------------------------------------------------|
